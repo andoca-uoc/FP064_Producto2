@@ -19,17 +19,29 @@ $user->login();
     <div class = "container">
         <div class = "container">
             <h1>Introduce tus credenciales</h1>
-        <div class = "col-md-12 well">
-            Id: ( $_POST ) : <?= $_POST[ 'id_Persona' ]?>
+        <form class="col-md-12 well" action="controllers/login.php" method="POST">   
+        <!--Id_usuario-->
+        <label for="Id_usuario">Id de usuario</label><br>
+        <input type="id" name="Id_usuario" placeholder="Introduce tu id de usuario">
         </div>
+        <!--Password-->
         <div class = "col-md-12 well">
-            Contraseña: ( $_POST ) : <?= $_POST[ 'Password' ]?>
+        <label for="Password">contraseña</label><br>
+        <input type="password" name="Password" placeholder="Introduce tu contraseña">   
         </div>
-
+        <!--Botón de envío-->
+        <input class="submit" type="submit" name="login_std" value="Entra">
+    </form>
         <p>
           <a href="views/signup_view.php">Registrarse</a>
+        </p>
     </div>
   </body>
 </html>
 
 
+        
+      
+       
+      
+        
