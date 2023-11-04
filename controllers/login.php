@@ -27,11 +27,13 @@
                 echo "El id de usuario o contraseña son incorrectos.";            
         }
 
+    }
+
     if(isset($_POST['Id_usuario']) && isset($_POST['Password'])){
         $Username = $_POST['Id_usuario'];
         $Password = $_POST['Password'];
 
-        $db = new Database();
+        $db = new base_datos();
         $query = $db->connect()->prepare('SELECT*FROM Usuarios WHERE Id_usuario = $Id_usuario');
         $query->exe($Id_usuario, $Password);
 
@@ -40,8 +42,9 @@
             //Se valida rol
             $rol = $row[3];
             $_SESSION['rol'] = $rol;
-    }else{
-        echo "El id de usuario o contraseña son incorrectos.";
+        }else{
+            echo "El id de usuario o contraseña son incorrectos.";
+        }
     }
     
 ?>

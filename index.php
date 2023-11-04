@@ -4,6 +4,8 @@ require_once 'controllers/login.php';
 $user = new user_controller();
 $user->login();
 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -26,4 +28,4 @@ $user->login();
   </body>
 </html>
 
-?>
+
