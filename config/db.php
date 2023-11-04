@@ -4,7 +4,7 @@
     define('DB_HOST','localhost');
     define('DB_USER','user');
     define('DB_PASS','pass');
-    define('DB_NAME','mydb');
+    define('DB_NAME','database');
   
     //Conexión al servidor de la base de datos
     try{

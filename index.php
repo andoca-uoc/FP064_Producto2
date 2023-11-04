@@ -1,6 +1,7 @@
 <?php
 
-require_once 'controllers/login.php';
+include_once 'db.php';
+include('controllers/login.php');
 $user = new user_controller();
 $user->login();
 
@@ -24,6 +25,9 @@ $user->login();
         <div class = "col-md-12 well">
             Contraseña: ( $_POST ) : <?= $_POST[ 'Password' ]?>
         </div>
+
+        <p>
+          <a href="views/signup_view.php">Registrarse</a>
     </div>
   </body>
 </html>
