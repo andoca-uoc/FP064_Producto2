@@ -1,6 +1,6 @@
 <?php
 
-include_once 'db.php';
+require_once('db.php');
 include('controllers/login.php');
 $user = new user_controller();
 $user->login();
@@ -20,7 +20,7 @@ $user->login();
   <div class="container">
     <h1>Introduce tus credenciales</h1>
   </div>
-  <form action="controllers/login.php" method="POST">
+  <form name="login" action="controllers/login.php" method="POST">
     <!--Id_usuario-->
     <div class="mb-3">
       <label for="Id_usuario">Id de usuario</label><br>
