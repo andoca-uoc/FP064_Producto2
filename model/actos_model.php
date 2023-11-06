@@ -21,8 +21,22 @@ class ActosModel {
         $results = $query -> fetch(PDO::FETCH_ASSOC);
         return $results;
     }
-    public function delete_actos($Id_acto) {
+   public function delete_actos($Id_acto) {
         $conexion = new conexion();
+        if (isset($_GET['Id_acto'])) {
+            $Id_acto = $_GET['Id_acto'];
+            $query = "DELETE FROM ACTOS WHERE Id_acto = $Id_acto";
+            $results = $query -> fetch(PDO::FETCH_ASSOC);
+            return $results;
+            if (!$result) {
+                die("Query failed");
+            }
+
+            $_SESSION['message'] = 'Acto eliminado';
+
+            header("Location: /view/event.php");
+        }
 
     }
+}
 ?>
