@@ -1,14 +1,15 @@
 <?php
    
    class Event {
-    private string $Id_acto,
-    private string $Fecha,
-    private string $Hora,
-    private string $Titulo,
-    private string $Descripcion_corta,
-    private string $Descripcion_larga,
-    private string $Num_asistentes,
-    private string $Id_tipo_acto
+       public function _construct (
+    private string $Id_acto;
+    private string $Fecha;
+    private string $Hora;
+    private string $Titulo;
+    private string $Descripcion_corta;
+    private string $Descripcion_larga;
+    private string $Num_asistentes;
+    private string $Id_tipo_acto;
     ) {}
 
 public function getId_acto() : int{
@@ -63,16 +64,16 @@ public function getId_tipo_acto() : int{
     return $this->Id_tipo_acto;
 }
 
-public static function fromArray(array $data) : Event {
+public static function fromArray(array $event) : Event {
     return new Event(
-        $data["Id_acta"],
-        $data["Fecha"],
-        $data["Hora"],
-        $data["Titulo"],
-        $data["Descripcion_corta"],
-        $data["Descripcion_larga"],
-        $data["Num_asistentes"],
-        $data["Id_tipo_acto"],
+        $event["Id_acta"];
+        $event["Fecha"];
+        $event["Hora"],
+        $event["Titulo"],
+        $event["Descripcion_corta"],
+        $event["Descripcion_larga"],
+        $event["Num_asistentes"],
+        $event["Id_tipo_acto"],
     );
 }
 }

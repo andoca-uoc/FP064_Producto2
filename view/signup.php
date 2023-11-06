@@ -1,7 +1,6 @@
 <?php
 session_start();
-include_once 'config/db.php';
-include('signup.php');
+
 
 if($_SERVER['REQUEST_METHOD'] == "POST") {
     $id_usuario = $_POST['id_usuario'];
@@ -15,7 +14,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!empty($Username) && !empty($Password) && !is_numeric($Username)) {
 
         $query = "INSERT INTO Usuarios (Id_usuario, Username, Password, Id_tipo_usuario) values ('$id_usuario', '$Username', '$Password', '$Id_tipo_usuario)";
-        $query = "INSERT INTO Personas (Id_Persona, Nombre, Apellido1, Apellido2) values ('$id_Persona', '$Nombre', '$Apellido1', '$Apellido2')";
+        $query = "INSERT INTO Personas (Id_Persona, Nombre, Apellido1, Apellido2) values ('$Id_Persona', '$Nombre', '$Apellido1', '$Apellido2')";
 
         mysqli_query($db, $query);
 

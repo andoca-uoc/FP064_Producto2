@@ -20,63 +20,63 @@
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" name="data [Actos] [Id_acto] "
-            class="form-control"
-                id="floatingInput" placeholder="Id_acto">
-            <label for="floatingInput">Id_acto</label>
+            <input type="hidden" id="floatingInput"
+                   name="data [Actos] [Id_acto]"
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" name="data [Actos] [Fecha] "
+            <input type="date" name="data [Actos] [Fecha] "
             class="form-control"
                 id="floatingInput" placeholder="Fecha"
                 aria-describedby="fechaHelpBlock">
             <label for="floatingInput">Fecha</label>
             <div id="fechaHelpBlock" class="form-text">
-            Fecha con formato YYY-MM-DD    
+            Fecha en formato YYYY-MM-DD (en caso de tener que cambiar date por text por Mysql)
             </div>
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" name="data [Actos] [Hora "
+            <input type="time" name="data [Actos] [Hora] "
             class="form-control"
                 id="floatingInput" placeholder="Hora">
             <label for="floatingInput">Hora</label>
+            <div id="fechaHelpBlock" class="form-text">
+            Hora en formato HH:MM (en caso de tener que cambiar time por text por Mysql)
+            </div>
         </div>
 
         <div class="form-floating mb-3">
             <input type="text" name="data [Actos] [Titulo] "
             class="form-control"
                 id="floatingInput" placeholder="Titulo">
-            <label for="floatingInput">FTitulo</label>
+            <label for="floatingInput">Titulo</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="text" name="data [Actos] [Descripcion_corta] "
             class="form-control"
                 id="floatingInput" placeholder="Descripcion_corta">
-            <label for="floatingInput">Descripcion_corta</label>
+            <label for="floatingInput">Descripcion corta</label>
         </div>
 
         <div class="form-floating mb-3">
             <input type="text" name="data [Actos] [Descripcion_larga] "
             class="form-control"
                 id="floatingInput" placeholder="Descripcion_larga">
-            <label for="floatingInput">Descripcion_larga</label>
+            <label for="floatingInput">Descripcion larga</label>
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" name="data [Actos] [Num_asistentes] "
+            <input type="number" name="data [Actos] [Num_asistentes] "
             class="form-control"
                 id="floatingInput" placeholder="Num_asistentes">
-            <label for="floatingInput">Num_asistentes</label>
+            <label for="floatingInput">Número de asistentes</label>
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" name="data [Actos] [Id_tipo_acto] "
-            class="form-control"
-                id="floatingInput" placeholder="Id_tipo_acto">
-            <label for="floatingInput">Id_tipo_acto</label>
+            <input type="hidden" id="floatingInput"
+                   name="data [Actos] [Id_tipo_acto]">
+
         </div>
     </div>
 </form>

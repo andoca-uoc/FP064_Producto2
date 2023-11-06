@@ -1,17 +1,8 @@
-<?php 
-namespace Lib;
-use Mysqli;
-
-Class BaseDatos {
-
-    private Mysqli $conexion;
-    private mixed $resultado;
-
-    function __construct(
-        private string $server,
-    )
-
-}
+<?php
+define('SERVIDOR', 'mysql');
+define('USUARIO', 'user');
+define('PASS', 'pass');
+define('BASE_DATOS', 'database');
 
 
 

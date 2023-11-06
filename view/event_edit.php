@@ -7,9 +7,9 @@
 </head>
 <body>
 <form action="/view/event/event" method="post">
-    <?php if(isset($event):?>
+    <?php if(isset($event)):?>
     <input type="hidden" name="data[Acto] [Id_acto]"
-     value="<?=$contacto->getId_acto()?>">
+     value="<?=$event->getId_acto()?>">
     <?php endif;?>
     <div class="container mt-4">
         <div class="row>">
@@ -81,7 +81,7 @@
                 id="floatingInput" placeholder="Num_asistentes"
                 name="data [Actos] [Num_asistentes] "
                 value="<?=(isset($event))?$event->getNum_asistentesa() : ''?>">
-            <label for="floatingInput">Descripcion_corta</label>
+            <label for="floatingInput">Número de asistentes</label>
         </div>
 
         <div class="form-floating mb-3">
