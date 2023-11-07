@@ -1,49 +1,36 @@
 version: '3.8'
 
 services:
-  php-env:
-    image: php:8.0-apache
+  apache:
+    build: .
+    container_name: php-apache
     ports:
       - 3000:80
     volumes:
-      - C:/www/src:/var/www/html
+      - ./app:/var/www/html
     networks:
-      - entorno-web
+      - producto2
     depends_on:
       - mysql
-    
-  
+
   mysql:
-    image: mysql
+    image: mysql:5.7.28
     container_name: bbdd
-    ports:
+    ports: 
       - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=database
+      - MYSQL_DATABASE=eventos
       - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
+      - MYSQL_PASSWORD=root
     networks:
-      - entorno-web
+      - producto2
     volumes:
       - mysql_data:/var/lib/mysql
 
-  app:
-    depends_on:
-      - mysql
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    restart: always
-    ports: 
-      - '8080:80'
-    environment:
-      PMA_HOST: mysql
-    networks:
-      - entorno-web
-    
 networks:
-  entorno-web:
-  
+  producto2:  
+
 volumes:
   mysql_data:
 
