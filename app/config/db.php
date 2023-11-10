@@ -1,11 +1,10 @@
 <?php
-define('DB_HOST', 'bbdd');
-define('DB_USER', 'user');
-define('DB_PASSWORD', 'root');
-define('DB_NAME', 'eventos');
+if (!defined('DB_HOST')) define('DB_HOST', 'bbdd');
+if (!defined('DB_USER')) define('DB_USER', 'user');
+if (!defined('DB_PASSWORD')) define('DB_PASSWORD', 'root');
+if (!defined('DB_NAME')) define('DB_NAME', 'eventos');
 
 try {
-
     $pdo = new PDO(
         "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME,
         DB_USER,
