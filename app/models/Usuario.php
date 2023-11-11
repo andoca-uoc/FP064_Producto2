@@ -37,37 +37,39 @@ class Usuario {
     }
 
     public function addUser($username, $password, $nombre, $apellido1, $apellido2) {
-        $this->db->beginTransaction();
+            $this->db->beginTransaction();
 
-        try {
-            // Inserción en la tabla Personas
-            $sqlPersona = "INSERT INTO Personas (Nombre, Apellido1, Apellido2) VALUES (:nombre, :apellido1, :apellido2)";
-            $stmtPersona = $this->db->prepare($sqlPersona);
-            $stmtPersona->bindValue(':nombre', $nombre);
-            $stmtPersona->bindValue(':apellido1', $apellido1);
-            $stmtPersona->bindValue(':apellido2', $apellido2);
-            $stmtPersona->execute();
-            $idPersona = $this->db->lastInsertId();
+            try {
+                if ($this->findByUsername($username)) {
+                        return false;
+                    }
+                $sqlPersona = "INSERT INTO Personas (Nombre, Apellido1, Apellido2) VALUES (:nombre, :apellido1, :apellido2)";
+                $stmtPersona = $this->db->prepare($sqlPersona);
+                $stmtPersona->bindValue(':nombre', $nombre);
+                $stmtPersona->bindValue(':apellido1', $apellido1);
+                $stmtPersona->bindValue(':apellido2', $apellido2);
+                $stmtPersona->execute();
+                $idPersona = $this->db->lastInsertId();
 
-            if (!$idPersona || $idPersona <= 0) {
-                throw new Exception("Error al insertar en la tabla Personas.");
+                if (!$idPersona || $idPersona <= 0) {
+                    throw new Exception("Error al insertar en la tabla Personas.");
+                }
+
+                $sqlUsuario = "INSERT INTO Usuarios (Username, Password, Id_Persona, Id_tipo_usuario) VALUES (:username, :password, :idPersona, 2)";
+                $stmtUsuario = $this->db->prepare($sqlUsuario);
+                $stmtUsuario->bindValue(':username', $username);
+                $stmtUsuario->bindValue(':password', $password);
+                $stmtUsuario->bindValue(':idPersona', $idPersona, PDO::PARAM_INT);
+                $stmtUsuario->execute();
+
+                $this->db->commit();
+
+                return $username;
+            } catch (Exception $e) {
+                $this->db->rollBack();
+                error_log('Error en addUser: ' . $e->getMessage());
+                return null;
             }
-
-            $sqlUsuario = "INSERT INTO Usuarios (Username, Password, Id_Persona, Id_tipo_usuario) VALUES (:username, :password, :idPersona, 2)";
-            $stmtUsuario = $this->db->prepare($sqlUsuario);
-            $stmtUsuario->bindValue(':username', $username);
-            $stmtUsuario->bindValue(':password', $password);
-            $stmtUsuario->bindValue(':idPersona', $idPersona, PDO::PARAM_INT);
-            $stmtUsuario->execute();
-
-            $this->db->commit();
-
-            return $username;
-        } catch (Exception $e) {
-            $this->db->rollBack();
-            error_log('Error en addUser: ' . $e->getMessage());
-            return null;
         }
-    }
 }
 ?>
