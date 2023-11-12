@@ -1,4 +1,14 @@
-<?php include("../includes/header.php") ?>
+<?php include('../controllers/actos/crear.php'); ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <title>Panel Admin</title>
+</head>
+<body>
     <form action="" method="POST">
         <div class="container mt-4">
             <div class="row>">
@@ -6,8 +16,8 @@
                     <h2>Nuevo acto</h2>
                 </div>
                 <div class="col text-end">
-                    <a href="" role="button"
-                       class="btn btn-secondary">Cancelar</a>
+                    <a href="../views/acto.php" role="button"
+                    class="btn btn-secondary">Cancelar</a>
                 <button type="submit" class="btn btn-primary">Crear</button>
                 </div>
             </div>
@@ -60,15 +70,8 @@
             </div>
 
             <div class="form-floating mb-3">
-                <select class="form-select form-select" name="Id_tipo_acto" aria-label="Default select example">
-                    <option selected>Tipo de evento</option>
-                    <option value="1">Curso</option>
-                    <option value="2">Taller</option>
-                    <option value="3">Seminario</option>
-                    <option value="4">Conferencia</option>
-                    <option value="5">Congreso</option>
-                    <option value="6">Ciclo</option>
-                </select>
+                <input type="checkbox" id="floatingInput"
+                   name="Id_tipo_acto">
             </div>
         </div>
     </form>

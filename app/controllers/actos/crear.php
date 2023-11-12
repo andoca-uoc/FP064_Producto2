@@ -1,38 +1,34 @@
 <?php
-//Encabezados (HEADERS)
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+    require_once __DIR__ . '/../models/db.php';
+    require_once __DIR__ . '/../models/actos.php';
 
-include_once '../../config/dbmysql.php';
-include_once '../../models/actos.php';
 
-//Instancionamos la base de datos y conexión
-$baseDatos = new Dbmysql();
-$db = $baseDatos->connect();
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $db = db_connect();
 
-//Instanciamos el objeto acto
-$acto = new \app\models\Acto($db);
+        if (!$db) {
+            die("Error al conectar con la base de datos");
+        }
 
-$data = json_decode(file_get_contents("php://input"));
 
-$acto->Fecha = $data->Fecha;
-$acto->Hora = $data->Hora;
-$acto->Titulo = $data->Titulo;
-$acto->Descripcion_corta = $data->Descripcion_corta;
-$acto->Descripcion_larga = $data->Descripcion_larga;
-$acto->Num_asistentes = $data->Num_asistentes;
-$acto->Id_tipo_acto = $data->Id_tipo_acto;
+        $acto = new Acto($db);
 
-//Crear evento
-if($acto->crear()){
-    echo json_encode(
-        array('message' => 'Evento creado')
-    );
-}else{
-    echo json_encode(
-        array('message' => 'Evento NO creado')
-    );
-}
 
+        $acto->Fecha = $_POST['Fecha'] ?? null;
+        $acto->Hora = $_POST['Hora'] ?? null;
+        $acto->Titulo = $_POST['Titulo'] ?? null;
+        $acto->Descripcion_corta = $_POST['Descripcion_corta'] ?? null;
+        $acto->Descripcion_larga = $_POST['Descripcion_larga'] ?? null;
+        $acto->Num_asistentes = $_POST['Num_asistentes'] ?? null;
+        $acto->Id_tipo_acto = $_POST['Id_tipo_acto'] ?? null;
+
+
+        if ($acto->crear()) {
+            header("Location: /ruta/a/tu/vista/exito.php");
+        } else {
+            header("Location: /ruta/a/tu/vista/error.php");
+        }
+    } else {
+        header("Location: /ruta/a/tu/formulario.php");
+    }
+?>

@@ -1,12 +1,13 @@
 <?php
 session_start();
-require __DIR__ . '/../config/db.php';
-require __DIR__ . '/../models/Usuario.php';
+require_once __DIR__ . '/../models/db.php';
+require_once __DIR__ . '/../models/Usuario.php';
 
 class RegisterController {
     private $usuarioModel;
 
-    public function __construct($pdo) {
+    public function __construct() {
+     $pdo = db_connect();
         if (!$pdo) {
             throw new InvalidArgumentException("No se puede conectar a la base de datos");
         }
@@ -27,7 +28,7 @@ class RegisterController {
 
 }
 
-$controller = new RegisterController($pdo);
+$controller = new RegisterController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['Username'] ?? '';

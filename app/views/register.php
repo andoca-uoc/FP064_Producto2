@@ -27,17 +27,17 @@
 
                 <div class="mb-3">
                     <label class="form-label">Nombre</label>
-                    <input class="form-control" type="text" name="Nombre" placeholder="Introduce tu nombre">
+                    <input class="form-control" type="text" name="Nombre" placeholder="Introduce tu nombre" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Apellido1</label>
-                    <input class="form-control" type="text" name="Apellido1" placeholder="Introduce tu primer apellido">
+                    <input class="form-control" type="text" name="Apellido1" placeholder="Introduce tu primer apellido" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Apellido2</label>
-                    <input class="form-control" type="text" name="Apellido2" placeholder="Introduce tu segundo apellido">
+                    <input class="form-control" type="text" name="Apellido2" placeholder="Introduce tu segundo apellido" required>
                 </div>
 
                 <button class="btn btn-primary" type="submit" value="Registrarse"> Registrarse </button>
