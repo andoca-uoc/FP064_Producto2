@@ -6,11 +6,11 @@
     <title>Panel Admin + Sidebar</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../P2/assets/admin.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="/assets/css/general.css">
 </head>
 <body>
 <div class="wrapper">
-    <!--Sidebar Izq-->
     <nav id="sidebar">
         <div class="sidebar-header">
             <h3>Panel de Administración</h3>
@@ -31,7 +31,7 @@
             </li>
         </ul>
         <ul class="list-unstyled CTAs">
-            <li  <li class="list-group-item list-group-item-info">
+            <li class="list-group-item list-group-item-info">
                 <a href="#">Perfil</a>
             </li>
         </ul>
@@ -48,10 +48,9 @@
                 <h1>Gestión de Actos</h1>
             </div>
         </nav>
-
-        //
-        <p>Aquí va el contenido</p>
-
+        <?php
+            include 'acto.php';
+        ?>
     </div>
 </div>
 </body>

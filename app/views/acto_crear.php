@@ -1,13 +1,3 @@
-<?php
-//Instancionamos la base de datos y conexión
-$baseDatos = new Basemysql();
-$db = $baseDatos->connect();
-
-//Instanciamos el acto
-$actos = new acto($db);
-$resultado = $actos->leer();
-
-?>
 <?php include('../controllers/actos/crear.php'); ?>
 
 <!DOCTYPE html>

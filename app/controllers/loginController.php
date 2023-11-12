@@ -2,12 +2,14 @@
 session_start();
 require __DIR__ . '/../config/db.php';
 require __DIR__ . '/../models/Usuario.php';
+require __DIR__ .'/../models/db.php';
 
 class LoginController {
     private $usuarioModel;
     public $loginError = '';
 
-    public function __construct($pdo) {
+    public function __construct() {
+        $pdo = db_connect();
         if (!$pdo) {
             throw new InvalidArgumentException("No se puede conectar a la base de datos");
         }
@@ -21,7 +23,7 @@ class LoginController {
                $user_type = $this->usuarioModel->getUserType($username);
 
                if ($user_type == 'Admin') {
-                   header('Location: ../views/admin_dashboard.php');
+                   header('Location: /views/admin_panel.php');
                    exit;
                } else {
                    header('Location: ../views/user_dashboard.php');
@@ -35,7 +37,7 @@ class LoginController {
        }
    }
 
-$controller = new LoginController($pdo);
+$controller = new LoginController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['usuario'] ?? '';

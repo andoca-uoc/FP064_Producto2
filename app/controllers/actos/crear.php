@@ -1,12 +1,11 @@
 <?php
-    include('../config/Basemysql.php');
-    include('../models/actos.php');
-
+    include('config/Basemysql.php');
+    include('models/actos.php');
+    require_once('models/db.php')
 
 
     //Instancionamos la base de datos y conexión
-    $baseDatos = new Basemysql();
-    $db = $baseDatos->connect();
+    $db = db_connect();
 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -1,7 +1,9 @@
 <?php
+    require_once("db.php");
+
     class acto{
         private $conn;
-        private $table = 'actos';
+        private $table = 'Actos';
 
 
         /* Propiedades */
@@ -16,23 +18,19 @@
 
 
         //Constructor conexion a la BD
-        public function __construct($db){
-            $this->conn = $db;
+        public function __construct(){
+            //$this->conn = $db;
         }
 
 
         //Obtener eventos (todos)
-        public function leer(){
-            //Crear query       
-            $query = 'SELECT Id_acto, Fecha, Hora, Titulo, Descripcion_corta, Descripcion_larga, Num_asistentes, Id_tipo_acto FROM ' . $this->table;
-
-            //Preparar la sentencia
-            $stmt = $this->conn->prepare($query);
-
-            //Ejecutar query
-            $stmt->execute();
-            $actos = $stmt->fetchAll(PDO::FETCH_OBJ);
-            return $actos;
+        public function leer() {
+            return db_query_fetchall(
+                'SELECT
+                    Id_acto, Fecha, Hora, Titulo, Descripcion_corta, 
+                    Descripcion_larga, Num_asistentes, Id_tipo_acto 
+                FROM ' . $this->table
+            );
         }
 
         //Obtener evento (uno solo)
