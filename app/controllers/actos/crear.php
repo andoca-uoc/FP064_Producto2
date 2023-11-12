@@ -1,34 +1,34 @@
 <?php
-    include('config/Basemysql.php');
-    include('models/actos.php');
-    require_once('models/db.php')
-
-
-    //Instancionamos la base de datos y conexión
-    $db = db_connect();
+    require_once __DIR__ . '/../models/db.php';
+    require_once __DIR__ . '/../models/actos.php';
 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //Obtener los valores
-        $Id_acto = $_POST['Id_acto'];
-        $Fecha = $_POST['Fecha'];
-        $Hora = $_POST['Hora'];
-        $Titulo = $_POST['Titulo'];
-        $Descripcion_corta = $_POST['Descripcion_corta'];
-        $Descripcion_larga = $_POST['Descripcion_larga'];
-        $Num_asistentes = $_POST['Num_asistentes'];
-        $Id_tipo_acto = $_POST['Id_tipo_acto'];
+        $db = db_connect();
 
-        //Instanciamos el acto
-        $acto = new acto($db);
+        if (!$db) {
+            die("Error al conectar con la base de datos");
+        }
 
 
-        $acto->crear($Id_acto, $Fecha, $Hora, $Titulo, $Descripcion_corta, $Descripcion_larga, $Num_asistentes, $Id_tipo_acto);
-        /*$mensaje = "Acto creado";
-        header("Location: ../../views/acto.php");*/
+        $acto = new Acto($db);
 
 
+        $acto->Fecha = $_POST['Fecha'] ?? null;
+        $acto->Hora = $_POST['Hora'] ?? null;
+        $acto->Titulo = $_POST['Titulo'] ?? null;
+        $acto->Descripcion_corta = $_POST['Descripcion_corta'] ?? null;
+        $acto->Descripcion_larga = $_POST['Descripcion_larga'] ?? null;
+        $acto->Num_asistentes = $_POST['Num_asistentes'] ?? null;
+        $acto->Id_tipo_acto = $_POST['Id_tipo_acto'] ?? null;
+
+
+        if ($acto->crear()) {
+            header("Location: /ruta/a/tu/vista/exito.php");
+        } else {
+            header("Location: /ruta/a/tu/vista/error.php");
+        }
+    } else {
+        header("Location: /ruta/a/tu/formulario.php");
     }
-
 ?>
-

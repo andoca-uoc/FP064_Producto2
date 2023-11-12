@@ -32,30 +32,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($resultados as $acto) : ?>
-                        <tr>
-                            <td><?php echo $acto->Id_acto; ?></td>
-                            <td><?php echo $acto->Fecha; ?></td>
-                            <td><?php echo $acto->Hora; ?></td>
-                            <td><?php echo $acto->Titulo; ?></td>
-                            <td><?php echo $acto->Descripcion_corta; ?></td>
-                            <td><?php echo $acto->Descripcion_larga; ?></td>
-                            <td><?php echo $acto->Num_asistentes; ?></td>
-                            <td><?php echo $acto->Id_tipo_acto; ?></td>
 
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <a role="button" class="btn btn-sm btn-outline-secondary" href="#">Modificar</a>
-                                </div>
+                <?php foreach($actos as $acto) : ?>
+                	<tr>
+                		<td><?php echo $acto['id']; ?></td>
+                		<td><?php echo $acto['date']; ?></td>
+                		<td><?php echo $acto['time']; ?></td>
+                		<td><?php echo $acto['title']; ?></td>
+                		<td><?php echo $acto['description1']; ?></td>
+                		<td><?php echo $acto['description2']; ?></td>
+                		<td><?php echo $acto['audience']; ?></td>
+                		<td><?php echo $acto['id_type']; ?></td>
+                		<td>
+							<div class="btn-group" role="group">
+								<a role="button" class="btn btn-sm btn-outline-secondary" href="#">Modificar</a>
+							</div>
 
-                                <div class="btn-group" role="group">
-                                    <a role="button" class="btn btn-sm btn-outline-danger" href="#">Borrar</a>
-                                </div>
-                            </td>
-
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+							<div class="btn-group" role="group">
+								<a role="button" class="btn btn-sm btn-outline-danger" href="#">Borrar</a>
+							</div>
+						</td>
+                	</tr>
+                <?php endforeach?>
                 </tbody>
             </table>
         </div>

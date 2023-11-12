@@ -1,152 +1,91 @@
 <?php
-    require_once("db.php");
+require_once __DIR__ . "/db.php";
 
-    class acto{
-        private $conn;
-        private $table = 'Actos';
+class Acto {
+    private $conn;
+    private $table = 'Actos';
 
+    public $Id_acto;
+    public $Fecha;
+    public $Hora;
+    public $Titulo;
+    public $Descripcion_corta;
+    public $Descripcion_larga;
+    public $Num_asistentes;
+    public $Id_tipo_acto;
 
-        /* Propiedades */
-        public int $Id_acto;
-        public string $Fecha;
-        public string $Hora;
-        public string $Titulo;
-        public string $Descripcion_corta;
-        public string $Descripcion_larga;
-        public int $Num_asistentes;
-        public int $Id_tipo_acto;
-
-
-        //Constructor conexion a la BD
-        public function __construct(){
-            //$this->conn = $db;
-        }
-
-
-        //Obtener eventos (todos)
-        public function leer() {
-            return db_query_fetchall(
-                'SELECT
-                    Id_acto, Fecha, Hora, Titulo, Descripcion_corta, 
-                    Descripcion_larga, Num_asistentes, Id_tipo_acto 
-                FROM ' . $this->table
-            );
-        }
-
-        //Obtener evento (uno solo)
-        public function leer_individual(){
-            //Crear query
-            $query = 'SELECT Id_acto, Fecha, Hora, Titulo, Descripcion_corta, Descripcion_larga, Num_asistentes, Id_tipo_acto FROM ' . $this->table ;
-
-            //Preparar la sentencia
-            $stmt = $this->conn->prepare($query);
-
-            //Vincular parámetro
-            $stmt->bindParam(1, $this->Id_acto);
-
-            //Ejecutar query
-            $stmt->execute();
-            $actos = $stmt->fetch(PDO::FETCH_OBJ);
-            return $actos;
-
-
-    /*        $this->Id_acto = $row['Id_acto'];
-            $this->Fecha = $row['Fecha'];
-            $this->Hora = $row['Hora'];
-            $this->Titulo = $row['Titulo'];
-            $this->Descripcion_corta = $row['Descripcion_corta'];
-            $this->Descripcion_larga = $row['Descripcion_larga'];
-            $this->Num_asistentes = $row['Num_asistentes'];
-            $this->Id_tipo_acto = $row['Id_tipo_acto']; */
-        }
-
-        //Crear nuevo evento
-        public function crear($Id_acto, $Fecha, $Hora, $Titulo, $Descripcion_corta, $Descripcion_larga, $Num_asistentes, $Id_tipo_acto)
-        {
-            //Crear query
-            $query = 'INSERT INTO ' . $this->table . '(Id_acto, Fecha, Hora, Titulo, Desceripcion_corta, Descripcion_larga, Num_asistentes, Id_tipo_acto)VALUES(:Id_acto, :Fecha, :Hora, :Titulo, :Desceripcion_corta, :Descripcion_larga, :Num_asistentes, :Id_tipo_acto)';
-
-            //Preparar la sentencia
-            $stmt = $this->conn->prepare($query);
-
-            //Vincular parámetro
-            $stmt->bindParam(":Id_acto", $Id_acto, PDO::PARAM_INT);
-            $stmt->bindParam(":Fecha", $Fecha, PDO::PARAM_STR);
-            $stmt->bindParam(":Hora", $Hora, PDO::PARAM_STR);
-            $stmt->bindParam(":Titulo", $Titulo, PDO::PARAM_STR);
-            $stmt->bindParam(":Descripcion_corta", $Descripcion_corta, PDO::PARAM_STR);
-            $stmt->bindParam(":Descripcion_larga", $Descripcion_larga, PDO::PARAM_STR);
-            $stmt->bindParam(":Num_asistentes", $Num_asistentes, PDO::PARAM_INT);
-            $stmt->bindParam(":Id_tipo_acto", $Id_tipo_acto, PDO::PARAM_INT);
-
-            //Ejecutar query
-            if($stmt->execute()){
-                return true;
-            }
-
-      /*      //Si hay error
-            printf("Error $s.\n", $stmt->error);
-                return false;
-      */
-      }
-
-
-        //Actualizar un evento
-        public function actualizar($Id_acto, $Fecha, $Hora, $Titulo, $Descripcion_corta, $Descripcion_larga, $Num_asistentes, $Id_tipo_acto){
-            //Crear query
-            $query = 'UPDATE ' . $this->table . ' SET Titulo = :Titulo WHERE Id_acto = :Id_acto';
-
-            //Preparar la sentencia
-            $stmt = $this->conn->prepare($query);
-
-            //Vincular parámetros
-            $stmt->bindParam(":Id_acto", $Id_acto, PDO::PARAM_INT);
-            $stmt->bindParam(":Fecha", $Fecha, PDO::PARAM_STR);
-            $stmt->bindParam(":Hora", $Hora, PDO::PARAM_STR);
-            $stmt->bindParam(":Titulo", $Titulo, PDO::PARAM_STR);
-            $stmt->bindParam(":Descripcion_corta", $Descripcion_corta, PDO::PARAM_STR);
-            $stmt->bindParam(":Descripcion_larga", $Descripcion_larga, PDO::PARAM_STR);
-            $stmt->bindParam(":Num_asistentes", $Num_asistentes, PDO::PARAM_INT);
-            $stmt->bindParam(":Id_tipo_acto", $Id_tipo_acto, PDO::PARAM_INT);
-
-            //Ejecutar query
-            if($stmt->execute()){
-                return true;
-            }
-
-  /*          //Si hay error
-            printf("Error $s.\n", $stmt->error); 
-            return false;          
-    */    }
-
-
-        //Borrar un evento
-        public function borrar($Id_acto)
-        {
-            //Crear query
-            $query = 'DELETE FROM ' . $this->table . ' WHERE Id_acto = :Id_acto';
-
-            //Preparar la sentencia
-            $stmt = $this->conn->prepare($query);
-
-            //Vincular parámetro
-        
-            $stmt->bindParam(":Id_acto", $Id_acto, PDO::PARAM_INT);
-
-            //Ejecutar query
-            if($stmt->execute()){
-                return true;
-            }
-
-            //Si hay error
-       /*     printf("Error $s.\n", $stmt->error);
-        */    return false;
-        }
-
-
-
-        
-        
-
+    public function __construct() {
 
     }
+
+
+    public function leer() {
+    	return db_query_fetchall('SELECT * FROM ' . $this->table);
+    }
+
+    public function leer_individual() {
+        $query = 'SELECT * FROM ' . $this->table . ' WHERE Id_acto = ? LIMIT 0,1';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->Id_acto);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->Fecha = $row['Fecha'];
+        $this->Hora = $row['Hora'];
+        $this->Titulo = $row['Titulo'];
+        $this->Descripcion_corta = $row['Descripcion_corta'];
+        $this->Descripcion_larga = $row['Descripcion_larga'];
+        $this->Num_asistentes = $row['Num_asistentes'];
+        $this->Id_tipo_acto = $row['Id_tipo_acto'];
+    }
+
+    public function crear() {
+        $query = 'INSERT INTO ' . $this->table . ' SET Fecha=:Fecha, Hora=:Hora, Titulo=:Titulo, Descripcion_corta=:Descripcion_corta, Descripcion_larga=:Descripcion_larga, Num_asistentes=:Num_asistentes, Id_tipo_acto=:Id_tipo_acto';
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":Fecha", $this->Fecha);
+        $stmt->bindParam(":Hora", $this->Hora);
+        $stmt->bindParam(":Titulo", $this->Titulo);
+        $stmt->bindParam(":Descripcion_corta", $this->Descripcion_corta);
+        $stmt->bindParam(":Descripcion_larga", $this->Descripcion_larga);
+        $stmt->bindParam(":Num_asistentes", $this->Num_asistentes);
+        $stmt->bindParam(":Id_tipo_acto", $this->Id_tipo_acto);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function actualizar() {
+        $query = 'UPDATE ' . $this->table . ' SET Fecha=:Fecha, Hora=:Hora, Titulo=:Titulo, Descripcion_corta=:Descripcion_corta, Descripcion_larga=:Descripcion_larga, Num_asistentes=:Num_asistentes, Id_tipo_acto=:Id_tipo_acto WHERE Id_acto=:Id_acto';
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":Id_acto", $this->Id_acto);
+        $stmt->bindParam(":Fecha", $this->Fecha);
+        $stmt->bindParam(":Hora", $this->Hora);
+        $stmt->bindParam(":Titulo", $this->Titulo);
+        $stmt->bindParam(":Descripcion_corta", $this->Descripcion_corta);
+        $stmt->bindParam(":Descripcion_larga", $this->Descripcion_larga);
+        $stmt->bindParam(":Num_asistentes", $this->Num_asistentes);
+        $stmt->bindParam(":Id_tipo_acto", $this->Id_tipo_acto);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function borrar() {
+        $query = 'DELETE FROM ' . $this->table . ' WHERE Id_acto = :Id_acto';
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":Id_acto", $this->Id_acto);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+}
+?>
