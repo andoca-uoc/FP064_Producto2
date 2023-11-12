@@ -1,35 +1,39 @@
 <?php
-include '../models/actos.php';
+//Encabezados (HEADERS)
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: PUT');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-    //Instancionamos la base de datos y conexión
-    $baseDatos = new Basemysql();
-    $db = $baseDatos->connect();
+include_once '../../config/dbmysql.php';
+include_once '../../models/actos.php';
 
-    //Instanciamos el objeto categoría
-    $acto = new actos($db);
+//Instancionamos la base de datos y conexión
+$baseDatos = new Dbmysql();
+$db = $baseDatos->connect();
 
-    $data = json_decode(file_get_contents("php://input"));
+//Instanciamos el objeto producto
+$acto = new \app\models\Acto($db);
 
-    //Setear el id de categoría
-    $acto->id = $data->id;
-    //solo habia id y nombre
-    $acto->fecha = $data->fecha;
-    $acto->hora = $data->hora;
-    $acto->titulo = $data->titulo;
-    $acto->descripcionCorta = $data->descripcionCorta;
-    $acto->descripcionLarga = $data->descripcionLarga;
-    $acto->numeroAsistentes = $data->numeroAsistentes;
-    $acto->idTipoUsuario = $data->idTipoUsuario;
+$data = json_decode(file_get_contents("php://input"));
 
+//Setear el id de acto
+$acto->Id_acto = $data->Id_acto;
+$acto->Fecha = $data->Fecha;
+$acto->Hora = $data->Hora;
+$acto->Titulo = $data->Titulo;
+$acto->Descripcion_corta = $data->Descripcion_corta;
+$acto->Descripcion_larga = $data->Descripcion_larga;
+$acto->Num_asistentes = $data->Num_asistentes;
+$acto->Id_tipo_acto = $data->Id_tipo_acto;
 
-
-    //Crear categorías
-    if($acto->actualizar()){
-        echo json_encode(
-            array('message' => 'Evento actualizado')
-        );
-    }else{
-        echo json_encode(
-            array('message' => 'Evento NO actualizada')
-        );
-    }
+//Actualizar producto
+if($acto->actualizar()){
+    echo json_encode(
+        array('message' => 'Producto actualizado')
+    );
+}else{
+    echo json_encode(
+        array('message' => 'Producto no actualizado')
+    );
+}
