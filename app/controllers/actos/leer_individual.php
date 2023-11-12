@@ -1,24 +1,35 @@
 <?php
-include '../models/actos.php';
+//Encabezados (HEADERS)
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
 
-    //Instancionamos la base de datos y conexión
-    $baseDatos = new Basemysql();
-    $db = $baseDatos->connect();
+include_once '../../config/dbmysql.php';
+include_once '../../models/actos.php';
 
-    //Instanciamos el objeto categoría
-    $acto = new actos($db);
+//Instancionamos la base de datos y conexión
+$baseDatos = new Dbmysql();
+$db = $baseDatos->connect();
 
-    //Get id
-    $acto->id = isset($_GET['Id_acto']) ? $_GET['Id_acto'] : die();
+//Instanciamos el objeto acto
+$acto = new \app\models\Acto($db);
 
-    //Get categoría
-    $acto->leer_individual();
+//Get id
+$acto->Id_acto = isset($_GET['Id_acto']) ? $_GET['Id_acto'] : die();
 
-    //Creamos el array
-    $acto_arr = array(
-        'Id_acto' => $acto->id,
-        'Titulo' => $acto->nombre
-    );
+//Get acto
+$acto->leer_individual();
 
-    //Crear json
-    print_r(json_encode($acto_arr));
+//Creamos el array
+$acto_arr = array(
+    'Id_acto' => $acto->Id_acto,
+    'titulo' => $acto->Fecha,
+    'Hora' => $acto->Hora,
+    'Titulo' => $acto->Titulo,
+    'Descripcion_corta' => $acto->Descripcion_corta,
+    'Descripcion_larga' => $acto->Descripcion_larga,
+    'Num_asistentes' => $acto->Num_asistentes,
+    'Id_tipo_acto' => $acto->Id_tipo_acto
+);
+
+//Crear json
+print_r(json_encode($acto_arr));
