@@ -1,8 +1,9 @@
 <?php
 session_start();
-require __DIR__ . '/../config/db.php';
-require __DIR__ . '/../models/Usuario.php';
-require __DIR__ .'/../models/db.php';
+
+require_once __DIR__ . '/../models/db.php';
+require_once __DIR__ . '/../models/Usuario.php';
+
 
 class LoginController {
     private $usuarioModel;
