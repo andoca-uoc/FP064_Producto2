@@ -1,41 +1,51 @@
 <?php
-    include('../config/Basemysql.php');
-    include('../models/actos.php');
+//Encabezados (HEADERS)
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
 
-    //Instancionamos la base de datos y conexión
-    $baseDatos = new Basemysql();
-    $db = $baseDatos->connect();
+include_once '../config/dbmysql.php';
+include_once '../models/actos.php';
 
-    //Instanciamos el objeto categoría
-    $acto = new actos($db);
+//Instancionamos la base de datos y conexión
+$baseDatos = new Dbmysql();
+$db = $baseDatos->connect();
 
-    $resultado = $actos->leer();
+//Instanciamos el objeto acto
+$acto = new \app\models\Acto($db);
 
-    //Contar filas
-    $num = $resultado->rowCount();
+$resultado = $acto->leer();
 
-    //Validamos si existe una categoría
-    if($num > 0){
-        //Array de categorías
-        $acto_arr = array();
-        $acto_arr['data'] = array();
+//Contar filas
+$num = $resultado->rowCount();
 
-        while($row = $resultado->fetch(PDO::FETCH_ASSOC)){
-            extract($row);
+//Validamos si existe un acto
+if($num > 0){
+    //Array de actos
+    $categoria_arr = array();
+    $categoria_arr['data'] = array();
 
-            $acto_item = array(
-                'id' => $Id_acto,
-                'nombre' => $nombre
-            );
+    while($row = $resultado->fetch(PDO::FETCH_ASSOC)){
+        extract($row);
 
-            //Enviar datos
-            array_push($categoria_arr['data'], $categoria_item);            
-        }
+        $acto_item = array(
+            'Id_acto' => $Id_acto,
+            'Fecha' => $Fecha,
+            'Hora' => $Hora,
+            'Titulo' => $Titulo,
+            'Descripcion_corta' => $Descripcion_corta,
+            'Descripcion_larga' => $Descripcion_larga,
+            'Num_asistentes' => $Num_asistentes,
+            'Id_tipo_acto' => $Id_tipo_acto
+        );
 
-        //Enviar en formato json
-        echo json_encode($categoria_arr);
-
-    }else{
-        //No hay actos
-        echo json_encode(array('message' => 'No hay categorías'));
+        //Enviar datos
+        array_push($acto_arr['data'], $acto_item);
     }
+
+    //Enviar en formato json
+    echo json_encode($acto_arr);
+
+}else{
+    //No hay actos
+    echo json_encode(array('message' => 'No hay eventos'));
+}
