@@ -4,7 +4,8 @@
 
 
     $db = db_connect();
-
+	$actos = [];
+	
     if (!$db) {
         die("Error al conectar con la base de datos");
     }

@@ -18,6 +18,7 @@ class Acto {
 
     }
 
+    
 
     public function leer() {
     	return db_query_fetchall('SELECT * FROM ' . $this->table);
@@ -76,16 +77,10 @@ class Acto {
         return false;
     }
 
-    public function borrar() {
+    public function borrar($id) {
         $query = 'DELETE FROM ' . $this->table . ' WHERE Id_acto = :Id_acto';
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(":Id_acto", $this->Id_acto);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return db_query_execute($query, [':Id_acto' => $id]);
     }
+    
 }
 ?>

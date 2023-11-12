@@ -35,10 +35,21 @@
         }
     }
 
-    // function db_disconnect($db_conn, $stmt) {
-    //     $stmt = null;
-    //     $db_conn->close();
-	// }
+    function db_query_execute($sql, $params = []) {
+        $conn = db_connect();
+        if (!$conn) {
+            return false;
+        }
+    
+        try {
+            $stmt = $conn->prepare($sql);
+            return $stmt->execute($params);
+        } catch (PDOException $e) {
+            echo "Error en la ejecución de la consulta: " . $e->getMessage();
+            return false;
+        }
+    }
+    
 
     function db_query_fetchall($sql) {
         $conn = db_connect();

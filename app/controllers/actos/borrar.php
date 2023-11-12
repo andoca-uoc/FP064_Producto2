@@ -1,33 +1,15 @@
 <?php
-//Encabezados (HEADERS)
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: DELETE');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+require_once __DIR__ . '/../../models/actos.php';
 
-include_once '../../config/Dbmysql.php';
-include_once '../../models/actos.php';
-
-
-//Instancionamos la base de datos y conexión
-    $baseDatos = new Dbmysql();
-    $db = $baseDatos->connect();
-
-    //Instanciamos el objeto categoría
-    $acto = new \app\models\Acto($db);
-
-    $data = json_decode(file_get_contents("php://input"));
-
-    //Setear el id de acto
-    $acto->Id_acto = $data->Id_acto;
-
-    //Crear categorías
-    if($acto->borrar()){
-        echo json_encode(
-            array('message' => 'Evento borrado')
-        );
-    }else{
-        echo json_encode(
-            array('message' => 'Evento NO borrrado')
-        );
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
+    $id_acto = $_GET['id'];
+    $acto = new Acto();
+    if ($acto->borrar($id_acto)) {
+        header('Location: /views/acto.php');
+        exit;
+    } else {
+        echo "Error al borrar el acto";
     }
+}
+
+?>
