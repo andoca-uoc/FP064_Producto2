@@ -14,11 +14,11 @@ class Acto {
     public $Num_asistentes;
     public $Id_tipo_acto;
 
+
+
     public function __construct() {
-
+        $this->conn = db_connect();
     }
-
-    
 
     public function leer() {
     	return db_query_fetchall('SELECT * FROM ' . $this->table);
