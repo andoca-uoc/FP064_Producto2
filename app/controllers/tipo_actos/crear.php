@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
 
 	if ($tipo_acto->crear()) {
-		header('Location: /views/tipo_acto.php');
+		header('Location: /views/tipo_acto_panel.php');
 	} else {
 		echo "Error al crear el acto";
 	}
