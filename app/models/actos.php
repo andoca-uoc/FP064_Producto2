@@ -40,10 +40,10 @@ class Acto {
         $this->Id_tipo_acto = $row['Id_tipo_acto'];
     }
 
-    public function crear() {
-        $query = 'INSERT INTO ' . $this->table . ' SET Fecha=:Fecha, Hora=:Hora, Titulo=:Titulo, Descripcion_corta=:Descripcion_corta, Descripcion_larga=:Descripcion_larga, Num_asistentes=:Num_asistentes, Id_tipo_acto=:Id_tipo_acto';
-        $stmt = $this->conn->prepare($query);
+   public function crear() {
+        $query = 'INSERT INTO Actos (Fecha, Hora, Titulo, Descripcion_corta, Descripcion_larga, Num_asistentes, Id_tipo_acto) VALUES (:Fecha, :Hora, :Titulo, :Descripcion_corta, :Descripcion_larga, :Num_asistentes, :Id_tipo_acto)';
 
+		$stmt = $this->conn->prepare($query);
         $stmt->bindParam(":Fecha", $this->Fecha);
         $stmt->bindParam(":Hora", $this->Hora);
         $stmt->bindParam(":Titulo", $this->Titulo);
@@ -51,9 +51,9 @@ class Acto {
         $stmt->bindParam(":Descripcion_larga", $this->Descripcion_larga);
         $stmt->bindParam(":Num_asistentes", $this->Num_asistentes);
         $stmt->bindParam(":Id_tipo_acto", $this->Id_tipo_acto);
-
-        if ($stmt->execute()) {
-            return true;
+		if ($stmt->execute())
+		{
+			return true;
         }
         return false;
     }
