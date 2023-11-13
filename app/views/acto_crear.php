@@ -23,7 +23,7 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input type="hidden" id="floatingInput" name="Id acto">
+                <input type="hidden" id="floatingInput" name="Id_acto">
             </div>
 
             <div class="form-floating mb-3">
@@ -33,7 +33,7 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput"
+                <input type="date" class="form-control" id="floatingInput"
                        name="Fecha" placeholder="Fecha"  aria-describedby="fechaHelpBlock">
                 <label for="floatingInput">Fecha</label>
                 <div class="form-text">
@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput"
+                <input type="time" class="form-control" id="floatingInput"
                        name="Hora" placeholder="Hora">
                 <label for="floatingInput">Hora</label>
                 <div class="form-text">
@@ -70,11 +70,10 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input type="checkbox" id="floatingInput"
+                <input type="number" id="floatingInput"
                    name="Id_tipo_acto">
             </div>
         </div>
     </form>
 </body>
 </html>
-
