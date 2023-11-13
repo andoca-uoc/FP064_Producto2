@@ -17,16 +17,7 @@ class tipoActo
 		return db_query_fetchall('SELECT * FROM ' . $this->table);
 	}
 
-	public function leer_individual()
-	{
-		$query = 'SELECT * FROM ' . $this->table . ' WHERE Id_tipo_acto = ? LIMIT 0,1';
-		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(1, $this->Id_tipo_acto);
-		$stmt->execute();
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		$this->Fecha = $row['Descripcion'];
-	}
+	
 
 	public function crear() {
 		$query = 'INSERT INTO ' . $this->table . ' (Id_tipo_acto, Descripcion) VALUES (:Id_tipo_acto, :Descripcion)';
