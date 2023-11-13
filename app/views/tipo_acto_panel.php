@@ -1,3 +1,4 @@
+<?php include('../includes/header.php'); ?>
 <!DOCTYPE html>
 <html>
 
@@ -22,6 +23,12 @@
 		?>
 	</div>
 </div>
+	<div class="container-fluid mt-4">
+		<div class="row">
+			<div class="col text-end">
+				<a href="../views/tipo_acto_crear.php" role="button" class="btn btn-primary">Nuevo tipo de acto</a>
+			</div>
+		</div>
 <div class="modal fade" id="modalActualizar" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
 	<div class="modal-dialog " >
 		<div class="modal-content">
