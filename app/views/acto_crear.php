@@ -9,7 +9,7 @@
     <title>Panel Admin</title>
 </head>
 <body>
-    <form action="" method="POST">
+    <form action="../controllers/actos/crear.php" method="POST">
         <div class="container mt-4">
             <div class="row>">
                 <div class="col">
@@ -18,7 +18,7 @@
                 <div class="col text-end">
                     <a href="../views/acto.php" role="button"
                     class="btn btn-secondary">Cancelar</a>
-                <button type="submit" class="btn btn-primary">Crear</button>
+                <button type="submit" class="btn btn-primary" name="crearActo">Crear</button>
                 </div>
             </div>
 
