@@ -1,39 +1,23 @@
 <?php
-//Encabezados (HEADERS)
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: PUT');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
+require_once __DIR__ . '/../../models/actos.php';
 
-include_once '../../config/dbmysql.php';
-include_once '../../models/actos.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $acto = new Acto();
 
-//Instancionamos la base de datos y conexión
-$baseDatos = new Dbmysql();
-$db = $baseDatos->connect();
+    // Asignar valores del POST a las propiedades del objeto $acto
+    $acto->Id_acto = $_POST['id'];
+    $acto->Fecha = $_POST['fecha'];
+    $acto->Hora = $_POST['hora'];
+    $acto->Titulo = $_POST['titulo'];
+    $acto->Descripcion_corta = $_POST['descripcion_corta'];
+    $acto->Descripcion_larga = $_POST['descripcion_larga'];
+    $acto->Num_asistentes = $_POST['num_asistentes'];
+    $acto->Id_tipo_acto = $_POST['id_tipo_acto'];
 
-//Instanciamos el objeto producto
-$acto = new \app\models\Acto($db);
-
-$data = json_decode(file_get_contents("php://input"));
-
-//Setear el id de acto
-$acto->Id_acto = $data->Id_acto;
-$acto->Fecha = $data->Fecha;
-$acto->Hora = $data->Hora;
-$acto->Titulo = $data->Titulo;
-$acto->Descripcion_corta = $data->Descripcion_corta;
-$acto->Descripcion_larga = $data->Descripcion_larga;
-$acto->Num_asistentes = $data->Num_asistentes;
-$acto->Id_tipo_acto = $data->Id_tipo_acto;
-
-//Actualizar producto
-if($acto->actualizar()){
-    echo json_encode(
-        array('message' => 'Producto actualizado')
-    );
-}else{
-    echo json_encode(
-        array('message' => 'Producto no actualizado')
-    );
+    if ($acto->actualizar()) {
+        header('Location: /views/admin_panel.php');
+    } else {
+        echo "Error al actualizar el acto";
+    }
 }
+?>
