@@ -1,5 +1,6 @@
 <?php
 include '../lib/routes.php';
+include '../controllers/tipo_actos/leer.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -160,9 +161,16 @@ include '../lib/routes.php';
                             <input required type="number" class="form-control" id="update_num_asistentes" name="num_asistentes">
                         </div>
                         <div class="mb-3">
-                            <label for="update_id_tipo_acto" class="form-label">ID Tipo de Acto</label>
-                            <input required type="text" class="form-control" id="update_id_tipo_acto" name="id_tipo_acto">
+                            <label for="update_id_tipo_acto" class="form-label">Tipo de Acto</label>
+                            <select required class="form-control" id="update_id_tipo_acto" name="id_tipo_acto">
+                                <?php foreach ($tipo_actos as $tipo_acto) : ?>
+                                    <option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
+                                        <?php echo $tipo_acto['descripcion']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -247,7 +255,6 @@ include '../lib/routes.php';
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        //Modal ACtualizad Acto
         function abrirModalActualizar(acto) {
             document.querySelector('#formActualizarActo #update_id').value = acto.id || '';
             document.querySelector('#formActualizarActo #update_fecha').value = acto.date.split('-').reverse().join('-') || '';

@@ -4,7 +4,7 @@ require_once(__DIR__ . '/../../models/tipo_actos.php');
 
 
 $db = db_connect();
-$actos = [];
+$tipo_actos = [];
 
 if (!$db) {
 	die("Error al conectar con la base de datos");
