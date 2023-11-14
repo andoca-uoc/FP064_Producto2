@@ -48,6 +48,6 @@ class tipoActo
 
 	public function borrar() {
 		$query = 'DELETE FROM ' . $this->table . ' WHERE Id_tipo_acto = :Id_tipo_acto';
-		return db_query_execute($query, [':Id_tipo_acto' => $Id_tipo_acto]);
+		return db_query_execute($query, [':Id_tipo_acto' => $this->Id_tipo_acto]);
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 include '../lib/routes.php';
-include '../controllers/tipo_actos/leer.php';
+include './modales.php';
 ?>
 <!DOCTYPE html>
 <html>

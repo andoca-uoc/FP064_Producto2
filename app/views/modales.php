@@ -57,9 +57,16 @@ include '../controllers/tipo_actos/leer.php';
                                 <label for="floatingInput">Número de asistentes</label>
                             </div>
 
-                            <div class="form-floating mb-3">
-                                <input type="number" id="floatingInput" name="Id_tipo_acto" required>
-                            </div>
+                            <div class="mb-3">
+                            <label for="update_id_tipo_acto" class="form-label">Tipo de Acto</label>
+                            <select required class="form-control" id="update_id_tipo_acto" name="id_tipo_acto">
+                                <?php foreach ($tipo_actos as $tipo_acto) : ?>
+                                    <option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
+                                        <?php echo $tipo_acto['descripcion']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
