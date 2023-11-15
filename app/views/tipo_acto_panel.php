@@ -41,14 +41,13 @@
 										<td><?php echo $tipo_acto['id_tipo_acto']; ?></td>
 										<td><?php echo $tipo_acto['descripcion']; ?></td>
 
-
 										<td>
 											<div class="btn-group" role="group">
-												<button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalActualizarTipoActo">Modificar</button>
+												<button type="button" class="btn btn-sm btn-outline-secondary" onclick="abrirModalActualizarTipoActo(<?php echo htmlspecialchars(json_encode($tipo_acto)); ?>)">Modificar</button>
 											</div>
 
 											<div class="btn-group" role="group">
-												<a role="button" class="btn btn-sm btn-outline-danger" href="../controllers/tipo_actos/borrar.php?id=<?php echo $tipo_acto['id_tipo_acto']; ?>">Borrar</a>
+												<button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionTipoActo('../controllers/tipo_actos/borrar.php?id_tipo_acto=<?php echo $tipo_acto['id_tipo_acto']; ?>')">Borrar</button>
 											</div>
 										</td>
 									</tr>

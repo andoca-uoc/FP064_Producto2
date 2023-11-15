@@ -135,7 +135,7 @@ include '../controllers/tipo_actos/leer.php';
             </div>
         </div>
     </div>
-    <!-- Modal de Confirmación de Eliminación Actpo -->
+    <!-- Modal de Confirmacion de Eliminación Actpo -->
     <div class="modal fade" id="confirmarEliminacionModal" tabindex="-1" aria-labelledby="confirmarEliminacionModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -164,10 +164,10 @@ include '../controllers/tipo_actos/leer.php';
                 <form action="../controllers/tipo_actos/crear.php" method="POST">
                     <div class="modal-body">
                         <div class="form-floating mb-3">
-                            <input type="hidden" class="form-control" id="floatingInputCrear" name="Id_tipo_acto">
+                            <input required type="hidden" class="form-control" id="floatingInputCrear" name="Id_tipo_acto">
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInputCrear" name="Descripcion" placeholder="Descripcion">
+                            <input required type="text" class="form-control" id="floatingInputCrear" name="Descripcion" placeholder="Descripcion">
                             <label for="floatingInputCrear">Descripcion</label>
                         </div>
                     </div>
@@ -190,10 +190,10 @@ include '../controllers/tipo_actos/leer.php';
                 <form action="../controllers/tipo_actos/actualizar.php" method="POST">
                     <div class="modal-body">
                         <div class="form-floating mb-3">
-                            <input type="hidden" class="form-control" id="floatingInputActualizar" name="id_tipo_acto">
+                            <input type="hidden" class="form-control" id="floatingInputActualizar" name="id_tipo_acto">                        
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInputActualizar" name="descripcion" placeholder="Descripcion">
+                        <input type="text" class="form-control" id="Descripcion" name="descripcion" placeholder="Descripcion">
                             <label for="floatingInputActualizar">Descripcion</label>
                         </div>
                     </div>
@@ -205,3 +205,21 @@ include '../controllers/tipo_actos/leer.php';
             </div>
         </div>
     </div>
+<!-- Modal de Confirmacion de Eliminación Tipo acto -->
+<div class="modal fade" id="confirmarBorradoTipoActoModal" tabindex="-1" aria-labelledby="confirmarBorradoTipoActoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmarBorradoTipoActoModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que quieres eliminar este tipo de acto?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="#" class="btn btn-danger" id="btnConfirmarEliminarTipoActo">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>

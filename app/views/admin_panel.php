@@ -56,7 +56,7 @@ include './modales.php';
         </div>
     </div>
 
-   
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function abrirModalActualizar(acto) {
@@ -85,9 +85,20 @@ include './modales.php';
 
 
         // Modal Modicifcat tipo acto 
-        function abrirModalActualizarTipo(tipoActo) {
-            document.querySelector('#modalActualizarTipoActo #Id_tipo_acto').value = tipoActo.id_tipo_acto;
-            document.querySelector('#modalActualizarTipoActo #Descripcion').value = tipoActo.descripcion;
+       
+        function confirmarEliminacionTipoActo(url) {
+    // Actualizar el enlace del botón de eliminar en el modal
+    document.getElementById('btnConfirmarEliminarTipoActo').href = url;
+
+    // Mostrar el modal
+    var modal = new bootstrap.Modal(document.getElementById('confirmarBorradoTipoActoModal'));
+    modal.show();
+}
+
+        // Modal Modificar tipo acto 
+        function abrirModalActualizarTipoActo(tipoActo) {
+            document.getElementById('floatingInputActualizar').value = tipoActo.id_tipo_acto;
+            document.getElementById('Descripcion').value = tipoActo.descripcion;
 
             var modal = new bootstrap.Modal(document.getElementById('modalActualizarTipoActo'));
             modal.show();
