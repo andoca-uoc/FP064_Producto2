@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  apache:
+    build: .
+    container_name: php-apache
+    ports:
+      - 3000:80
+    volumes:
+      - ./app:/var/www/html
+    networks:
+      - producto2
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7.28
+    container_name: bbdd
+    ports: 
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=eventos
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=root
+    networks:
+      - producto2
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+networks:
+  producto2:  
+
+volumes:
+  mysql_data:
