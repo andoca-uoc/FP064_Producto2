@@ -58,52 +58,7 @@ include './modales.php';
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function abrirModalActualizar(acto) {
-            document.querySelector('#formActualizarActo #update_id').value = acto.id || '';
-            document.querySelector('#formActualizarActo #update_fecha').value = acto.date.split('-').reverse().join('-') || '';
-            document.querySelector('#formActualizarActo #update_hora').value = acto.time || '';
-            document.querySelector('#formActualizarActo #update_titulo').value = acto.title || '';
-            document.querySelector('#formActualizarActo #update_descripcion_corta').value = acto.description1 || '';
-            document.querySelector('#formActualizarActo #update_descripcion_larga').value = acto.description2 || '';
-            document.querySelector('#formActualizarActo #update_num_asistentes').value = acto.audience || '';
-            document.querySelector('#formActualizarActo #update_id_tipo_acto').value = acto.id_type || '';
-
-            var modal = new bootstrap.Modal(document.getElementById('modalActualizar'));
-            modal.show();
-        }
-
-        //Modal Acto Eliminar:
-        function confirmarEliminacion(url) {
-            document.getElementById('btnEliminar').onclick = function() {
-                window.location.href = url;
-            };
-            var modal = new bootstrap.Modal(document.getElementById('confirmarEliminacionModal'));
-            modal.show();
-        }
-
-
-
-        // Modal Modicifcat tipo acto 
-       
-        function confirmarEliminacionTipoActo(url) {
-    // Actualizar el enlace del botón de eliminar en el modal
-    document.getElementById('btnConfirmarEliminarTipoActo').href = url;
-
-    // Mostrar el modal
-    var modal = new bootstrap.Modal(document.getElementById('confirmarBorradoTipoActoModal'));
-    modal.show();
-}
-
-        // Modal Modificar tipo acto 
-        function abrirModalActualizarTipoActo(tipoActo) {
-            document.getElementById('floatingInputActualizar').value = tipoActo.id_tipo_acto;
-            document.getElementById('Descripcion').value = tipoActo.descripcion;
-
-            var modal = new bootstrap.Modal(document.getElementById('modalActualizarTipoActo'));
-            modal.show();
-        }
-    </script>
+    <script src="./acciones.js"></script>
 </body>
 
 </html>

@@ -59,7 +59,7 @@ include '../controllers/tipo_actos/leer.php';
 
                             <div class="mb-3">
                             <label for="update_id_tipo_acto" class="form-label">Tipo de Acto</label>
-                            <select required class="form-control" id="update_id_tipo_acto" name="id_tipo_acto">
+                            <select required class="form-control" id="update_id_tipo_acto" name="Id_tipo_acto">
                                 <?php foreach ($tipo_actos as $tipo_acto) : ?>
                                     <option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
                                         <?php echo $tipo_acto['descripcion']; ?>
