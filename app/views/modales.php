@@ -1,7 +1,5 @@
 <?php 
 include '../controllers/tipo_actos/leer.php';
-include '../controllers/usuarios/leer.php';
-
 ?>
 
  <!-- MODALES -->
@@ -19,7 +17,7 @@ include '../controllers/usuarios/leer.php';
                         <div class="container mt-4">
 
                             <div class="form-floating mb-3">
-                                <input type="hidden" id="floatingInput" name="Id_perfi">
+                                <input type="hidden" id="floatingInput" name="Id_acto">
                             </div>
 
                             <div class="form-floating mb-3">
@@ -61,7 +59,7 @@ include '../controllers/usuarios/leer.php';
 
                             <div class="mb-3">
                             <label for="update_id_tipo_acto" class="form-label">Tipo de Acto</label>
-                            <select required class="form-control" id="update_id_tipo_acto" name="id_tipo_acto">
+                            <select required class="form-control" id="update_id_tipo_acto" name="Id_tipo_acto">
                                 <?php foreach ($tipo_actos as $tipo_acto) : ?>
                                     <option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
                                         <?php echo $tipo_acto['descripcion']; ?>
@@ -137,7 +135,7 @@ include '../controllers/usuarios/leer.php';
             </div>
         </div>
     </div>
-    <!-- Modal de Confirmación de Eliminación Actpo -->
+    <!-- Modal de Confirmacion de Eliminación Actpo -->
     <div class="modal fade" id="confirmarEliminacionModal" tabindex="-1" aria-labelledby="confirmarEliminacionModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -166,10 +164,10 @@ include '../controllers/usuarios/leer.php';
                 <form action="../controllers/tipo_actos/crear.php" method="POST">
                     <div class="modal-body">
                         <div class="form-floating mb-3">
-                            <input type="hidden" class="form-control" id="floatingInputCrear" name="Id_tipo_acto">
+                            <input required type="hidden" class="form-control" id="floatingInputCrear" name="Id_tipo_acto">
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInputCrear" name="Descripcion" placeholder="Descripcion">
+                            <input required type="text" class="form-control" id="floatingInputCrear" name="Descripcion" placeholder="Descripcion">
                             <label for="floatingInputCrear">Descripcion</label>
                         </div>
                     </div>
@@ -192,10 +190,10 @@ include '../controllers/usuarios/leer.php';
                 <form action="../controllers/tipo_actos/actualizar.php" method="POST">
                     <div class="modal-body">
                         <div class="form-floating mb-3">
-                            <input type="hidden" class="form-control" id="floatingInputActualizar" name="id_tipo_acto">
+                            <input type="hidden" class="form-control" id="floatingInputActualizar" name="id_tipo_acto">                        
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInputActualizar" name="descripcion" placeholder="Descripcion">
+                        <input type="text" class="form-control" id="Descripcion" name="descripcion" placeholder="Descripcion">
                             <label for="floatingInputActualizar">Descripcion</label>
                         </div>
                     </div>
