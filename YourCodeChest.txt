@@ -1,245 +1,177 @@
-// crear.php
+// loginController.php
 <?php
-    require_once __DIR__ . '/../../models/db.php';
-    require_once __DIR__ . '/../../models/actos.php';
+session_start();
 
-	$db = db_connect();
-	if(!$db) {
-		die("Error al conectar con la base de datos");
-	}
-	
-	if ($_SERVER['REQUEST_METHOD'] === 'POST')
-	{
-		//Se instancia el objeto
-		$acto = new Acto();
-		//Se obtienen los valores
-		//$acto->Id_acto = $_POST['id'];
-		$acto->Fecha = $_POST['Fecha'];
-		$acto->Hora = $_POST['Hora'];
-		$acto->Titulo = $_POST['Titulo'];
-		$acto->Descripcion_corta = $_POST['Descripcion_corta'];
-		$acto->Descripcion_larga = $_POST['Descripcion_larga'];
-		$acto->Num_asistentes = $_POST['Num_asistentes'];
-		$acto->Id_tipo_acto = $_POST['Id_tipo_acto'];
-		
-		if ($acto->crear()) {
-			header('Location: /views/admin_panel.php');
-		} else {
-			echo "Error al crear el acto";
-		}
-	}
-?>
+require_once __DIR__ . '/../models/db.php';
+require_once __DIR__ . '/../models/Usuario.php';
 
 
-// actos.php
-<?php
-require_once __DIR__ . "/db.php";
-
-class Acto {
-    private $conn;
-    private $table = 'Actos';
-
-    public $Id_acto;
-    public $Fecha;
-    public $Hora;
-    public $Titulo;
-    public $Descripcion_corta;
-    public $Descripcion_larga;
-    public $Num_asistentes;
-    public $Id_tipo_acto;
-
-
+class LoginController {
+    private $usuarioModel;
+    public $loginError = '';
 
     public function __construct() {
-        $this->conn = db_connect();
-    }
-
-    public function leer() {
-    	return db_query_fetchall('SELECT * FROM ' . $this->table);
-    }
-
-    public function leer_individual() {
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE Id_acto = ? LIMIT 0,1';
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->Id_acto);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $this->Fecha = $row['Fecha'];
-        $this->Hora = $row['Hora'];
-        $this->Titulo = $row['Titulo'];
-        $this->Descripcion_corta = $row['Descripcion_corta'];
-        $this->Descripcion_larga = $row['Descripcion_larga'];
-        $this->Num_asistentes = $row['Num_asistentes'];
-        $this->Id_tipo_acto = $row['Id_tipo_acto'];
-    }
-
-  public function crear() {
-		$query = 'INSERT INTO ' . $this->table . ' (Id_acto, Fecha, Hora, Titulo, Descripcion_corta, Descripcion_larga, Num_asistentes, Id_tipo_acto) VALUES (:Id_acto, :Fecha, :Hora, :Titulo, :Descripcion_corta, :Descripcion_larga, :Num_asistentes, :Id_tipo_acto)';
-		$stmt = $this->conn->prepare($query);
-
-		$stmt->bindParam(":Id_acto", $this->Id_acto);
-		$stmt->bindParam(":Fecha", $this->Fecha);
-		$stmt->bindParam(":Hora", $this->Hora);
-		$stmt->bindParam(":Titulo", $this->Titulo);
-		$stmt->bindParam(":Descripcion_corta", $this->Descripcion_corta);
-		$stmt->bindParam(":Descripcion_larga", $this->Descripcion_larga);
-		$stmt->bindParam(":Num_asistentes", $this->Num_asistentes);
-		$stmt->bindParam(":Id_tipo_acto", $this->Id_tipo_acto);
-
-		if ($stmt->execute())
-		{
-			return true;
-		}
-		return false;
-	}
-
-    public function actualizar() {
-        $query = 'UPDATE ' . $this->table . ' SET Fecha=:Fecha, Hora=:Hora, Titulo=:Titulo, Descripcion_corta=:Descripcion_corta, Descripcion_larga=:Descripcion_larga, Num_asistentes=:Num_asistentes, Id_tipo_acto=:Id_tipo_acto WHERE Id_acto=:Id_acto';
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(":Id_acto", $this->Id_acto);
-        $stmt->bindParam(":Fecha", $this->Fecha);
-        $stmt->bindParam(":Hora", $this->Hora);
-        $stmt->bindParam(":Titulo", $this->Titulo);
-        $stmt->bindParam(":Descripcion_corta", $this->Descripcion_corta);
-        $stmt->bindParam(":Descripcion_larga", $this->Descripcion_larga);
-        $stmt->bindParam(":Num_asistentes", $this->Num_asistentes);
-        $stmt->bindParam(":Id_tipo_acto", $this->Id_tipo_acto);
-
-        if ($stmt->execute()) {
-            return true;
+        $pdo = db_connect();
+        if (!$pdo) {
+            throw new InvalidArgumentException("No se puede conectar a la base de datos");
         }
-        return false;
+        $this->usuarioModel = new Usuario($pdo);
     }
 
-    public function borrar($id) {
-        $query = 'DELETE FROM ' . $this->table . ' WHERE Id_acto = :Id_acto';
-        return db_query_execute($query, [':Id_acto' => $id]);
-    }
+    public function login($username, $password) {
+        $user = $this->usuarioModel->findByUsername($username);
     
+        if ($user && $this->usuarioModel->verifyPassword($username, $password)) {
+            $_SESSION['user'] = $username;
+            $_SESSION['user_type'] = $this->usuarioModel->getUserType($username);
+    
+            if ($_SESSION['user_type'] == 'Admin') {
+                header('Location: /views/admin_panel.php');
+                exit;
+            } else {
+                header('Location: ../views/user_dashboard.php');
+                exit;
+            }
+        } else {
+            $_SESSION['login_error'] = 'Usuario o contraseña incorrecta.';
+            header('Location: ../index.php');
+            exit;
+        }
+    }
+}
+
+$controller = new LoginController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['usuario'] ?? '';
+    $password = $_POST['contrasena'] ?? '';
+    $controller->login($username, $password);
 }
 ?>
 
 
-// acciones.js
-function abrirModalActualizar(acto) {
-    document.querySelector('#formActualizarActo #update_id').value = acto.id || '';
-    document.querySelector('#formActualizarActo #update_fecha').value = acto.date.split('-').reverse().join('-') || '';
-    document.querySelector('#formActualizarActo #update_hora').value = acto.time || '';
-    document.querySelector('#formActualizarActo #update_titulo').value = acto.title || '';
-    document.querySelector('#formActualizarActo #update_descripcion_corta').value = acto.description1 || '';
-    document.querySelector('#formActualizarActo #update_descripcion_larga').value = acto.description2 || '';
-    document.querySelector('#formActualizarActo #update_num_asistentes').value = acto.audience || '';
-    document.querySelector('#formActualizarActo #update_id_tipo_acto').value = acto.id_type || '';
-    var modal = new bootstrap.Modal(document.getElementById('modalActualizar'));
-    modal.show();
+// registerController.php
+<?php
+session_start();
+require_once __DIR__ . '/../models/db.php';
+require_once __DIR__ . '/../models/Usuario.php';
+
+class RegisterController {
+    private $usuarioModel;
+
+    public function __construct() {
+     $pdo = db_connect();
+        if (!$pdo) {
+            throw new InvalidArgumentException("No se puede conectar a la base de datos");
+        }
+        $this->usuarioModel = new Usuario($pdo);
+    }
+
+      public function register($username, $password, $nombre, $apellido1, $apellido2) {
+          $usernameReturned = $this->usuarioModel->addUser($username, $password, $nombre, $apellido1, $apellido2);
+
+          if ($usernameReturned === $username) {
+              header('Location: /index.php');
+              exit;
+          } else {
+              header('Location: /views/register.php?error=registro_fallido');
+              exit;
+          }
+      }
+
 }
 
-//Modal Acto Eliminar:
-function confirmarEliminacion(url) {
-    document.getElementById('btnEliminar').onclick = function() {
-        window.location.href = url;
-    };
-    var modal = new bootstrap.Modal(document.getElementById('confirmarEliminacionModal'));
-    modal.show();
+$controller = new RegisterController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['Username'] ?? '';
+    $password = $_POST['Password'] ?? '';
+    $nombre = $_POST['Nombre'] ?? '';
+    $apellido1 = $_POST['Apellido1'] ?? '';
+    $apellido2 = $_POST['Apellido2'] ?? '';
+
+    $controller->register($username, $password, $nombre, $apellido1, $apellido2);
 }
+?>
 
 
-// Modal Modicifcat tipo acto 
-function confirmarEliminacionTipoActo(url) {
-    document.getElementById('btnConfirmarEliminarTipoActo').href = url;
-    var modal = new bootstrap.Modal(document.getElementById('confirmarBorradoTipoActoModal'));
-    modal.show();
+// Usuario.php
+<?php
+
+class Usuario {
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
+    }
+
+    public function findByUsername($username) {
+        $stmt = $this->db->prepare("SELECT * FROM Usuarios WHERE Username = :username");
+        $stmt->bindValue(':username', $username);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function verifyPassword($username, $password) {
+        $user = $this->findByUsername($username);
+        if ($user && $password === $user['Password']) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getUserType($username) {
+        $user = $this->findByUsername($username);
+        if ($user) {
+            $stmt = $this->db->prepare("SELECT Descripcion FROM Tipos_usuarios WHERE Id_tipo_usuario = :tipo_usuario_id");
+            $stmt->bindValue(':tipo_usuario_id', $user['Id_tipo_usuario']);
+            $stmt->execute();
+            $tipo_usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $tipo_usuario['Descripcion'];
+        } else {
+            return null;
+        }
+    }
+
+    public function addUser($username, $password, $nombre, $apellido1, $apellido2) {
+            $this->db->beginTransaction();
+
+            try {
+                if ($this->findByUsername($username)) {
+                        return false;
+                    }
+                $sqlPersona = "INSERT INTO Personas (Nombre, Apellido1, Apellido2) VALUES (:nombre, :apellido1, :apellido2)";
+                $stmtPersona = $this->db->prepare($sqlPersona);
+                $stmtPersona->bindValue(':nombre', $nombre);
+                $stmtPersona->bindValue(':apellido1', $apellido1);
+                $stmtPersona->bindValue(':apellido2', $apellido2);
+                $stmtPersona->execute();
+                $idPersona = $this->db->lastInsertId();
+
+                if (!$idPersona || $idPersona <= 0) {
+                    throw new Exception("Error al insertar en la tabla Personas.");
+                }
+
+                $sqlUsuario = "INSERT INTO Usuarios (Username, Password, Id_Persona, Id_tipo_usuario) VALUES (:username, :password, :idPersona, 2)";
+                $stmtUsuario = $this->db->prepare($sqlUsuario);
+                $stmtUsuario->bindValue(':username', $username);
+                $stmtUsuario->bindValue(':password', $password);
+                $stmtUsuario->bindValue(':idPersona', $idPersona, PDO::PARAM_INT);
+                $stmtUsuario->execute();
+
+                $this->db->commit();
+
+                return $username;
+            } catch (Exception $e) {
+                $this->db->rollBack();
+                error_log('Error en addUser: ' . $e->getMessage());
+                return null;
+            }
+        }
 }
+?>
 
-// Modal Modificar tipo acto 
-function abrirModalActualizarTipoActo(tipoActo) {
-    document.getElementById('floatingInputActualizar').value = tipoActo.id_tipo_acto;
-    document.getElementById('Descripcion').value = tipoActo.descripcion;
-
-    var modal = new bootstrap.Modal(document.getElementById('modalActualizarTipoActo'));
-    modal.show();
-}
-
-// acto.php
-<?php include '../controllers/actos/leer.php' ?>
-<?php include '../controllers/actos/borrar.php' ?>
-<?php include '../controllers/actos/actualizar.php' ?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="utf-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/admin.css">
-    <link rel="stylesheet" href="../assets/css/general.css">
-    <title>Panel Admin</title>
-</head>
-
-<body>
-    <div class="container-fluid mt-4">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                <h1>Gestión de Actos</h1>
-                </div>
-            </nav>
-        <div class="row">
-            <div class="col text-end">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearActoModal">
-                    Nuevo acto
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="table-responsive">
-                    <table class="table table-light table-striped table-hover w-100 h-100">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Hora</th>
-                                <th scope="col">Titulo</th>
-                                <th scope="col">Descripción Corta</th>
-                                <th scope="col">Descripcion Larga</th>
-                                <th scope="col">Numero de Asistentes</th>
-                                <th scope="col">Id tipo de acto</th>
-                                <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($actos as $acto) : ?>
-                                <tr id="acto-<?php echo $acto['id']; ?>">
-                                    <td><?php echo $acto['id']; ?></td>
-                                    <td><?php echo $acto['date']; ?></td>
-                                    <td><?php echo $acto['time']; ?></td>
-                                    <td><?php echo $acto['title']; ?></td>
-                                    <td><?php echo $acto['description1']; ?></td>
-                                    <td><?php echo $acto['description2']; ?></td>
-                                    <td><?php echo $acto['audience']; ?></td>
-                                    <td><?php echo $acto['id_type']; ?></td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button   button onclick="abrirModalActualizar(<?php echo htmlspecialchars(json_encode($acto)); ?>)" class="btn btn-sm btn-outline-secondary">Modificar</button>
-                                        </div>
-
-                                        <div class="btn-group" role="group">
-                                        <a role="button" class="btn btn-sm btn-outline-danger" href="#" onclick="confirmarEliminacion('../controllers/actos/borrar.php?id=<?php echo $acto['id']; ?>')">Borrar</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</body>
-
-</html>
 
 // admin_panel.php
 <?php
@@ -306,4 +238,119 @@ include './modales.php';
 </body>
 
 </html>
+
+// login.php
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/general.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-12 col-md-6 d-flex flex-column flex-md-row">
+                <img src="assets/logo.png" alt="LOGO" class="logo img-fluid mb-4 mb-md-0 w-75">
+            </div>
+            <div class="col-12 col-md-6">
+                <h1 class="text-white pb-5">Bienvenido a la Plataforma</h1>
+                <form action="controllers/loginController.php" method="post">
+                    <div class="mb-3">
+                        <label for="usuario" class="form-label">Usuario</label>
+                        <input type="text" class="form-control w-75" id="usuario" name="usuario" required placeholder="Introduzca su Usuario">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control w-75" id="contrasena" name="contrasena" required placeholder="Ingrese su Contraseña">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Acceder</button>
+                        <a href="views/register.php" class="btn btn-link">Registrarse</a>
+                    </div>
+                    <?php if (isset($_SESSION['login_error'])) : ?>
+                        <div class="alert alert-danger w-75" role="alert">
+                            <?php echo $_SESSION['login_error']; ?>
+                            <?php unset($_SESSION['login_error']); ?>
+                        </div>
+                    <?php endif; ?>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+// register.php
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrarse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/general.css">
+    <link rel="stylesheet" href="../assets/css/register.css">
+</head>
+<body>
+    <img src="../assets/logo.png" alt="LOGO" class="logo img-fluid mb-4 mb-md-0">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="col-md-6">
+            <h1 class="text-center text-light">Panel de registro</h1>
+
+            <form class="w-100" role="form" id="myform" action="/controllers/registerController.php" method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label">Nombre de Usuario</label>
+                    <input class="form-control" type="text" name="Username" placeholder="Introduce tu nombre de usuario" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input class="form-control" type="password" name="Password" placeholder="Introduce tu contraseña" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input class="form-control" type="text" name="Nombre" placeholder="Introduce tu nombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Apellido1</label>
+                    <input class="form-control" type="text" name="Apellido1" placeholder="Introduce tu primer apellido" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Apellido2</label>
+                    <input class="form-control" type="text" name="Apellido2" placeholder="Introduce tu segundo apellido" required>
+                </div>
+
+                <button class="btn btn-primary" type="submit" value="Registrarse"> Registrarse </button>
+                <a href="../index.php" class="btn btn-link">Ya tengo cuenta</a>
+            </form>
+            <?php if (isset($_GET['error'])): ?>
+                            <div class="alert alert-danger" role="alert">
+                                Error al registrarse. Por favor, intente nuevamente.
+                            </div>
+                        <?php endif; ?>
+        </div>
+    </div>
+</body>
+</html>
+
+
+// index.php
+<?php
+    require_once 'models/db.php';
+    require 'controllers/loginController.php';
+
+    $loginController = new LoginController();
+    require 'views/login.php';
+
+?>
+
 
