@@ -17,10 +17,10 @@ $resultados = $inscripcion->leer();
 if (count($resultados) > 0) {
 	foreach ($resultados as $resultado) {
 		$inscripciones[] = array(
-			'id_inscripcion' => $resultado['Id_inscripcion'],
-			'id_persona' => $resultado['Id_persona'],
-			'id_acto' => $resultado['Id_acto']
-			'Fecha_inscripcion' => $resultado['Fecha_inscripcion']
+			'Id_inscripcion' => $resultado['Id_inscripcion'],
+			'Id_persona' => $resultado['Id_persona'],
+			'Id_acto' => $resultado['Id_acto'],
+			'Fecha_inscripcion' => date("Y-m-d h:i", strtotime($resultado['Fecha_inscripcion']))
 		);
 	}
 }

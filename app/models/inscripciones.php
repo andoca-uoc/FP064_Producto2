@@ -4,7 +4,7 @@ require_once __DIR__ . "/db.php";
 class Inscripcion
 {
 	private $conn;
-	private $table = 'Tipo_acto';
+	private $table = 'Inscritos';
 
 	public $Id_inscripcion;
 	public $Id_persona;
@@ -22,12 +22,10 @@ class Inscripcion
 	public function crear() {
 		$query = 'INSERT INTO ' . $this->table . ' (Id_inscripcion, Id_persona, Id_acto, Fecha_inscripcion) VALUES (:Id_inscripcion, :Id_persona, :Id_acto, :Fecha_inscripcion)';
 		$stmt = $this->conn->prepare($query);
-
 		$stmt->bindParam(":Id_inscripcion", $this->Id_inscripcion);
 		$stmt->bindParam(":Id_persona", $this->Id_persona);
 		$stmt->bindParam(":Id_acto", $this->Id_acto);
-		$stmt->bindParam(":Fecha_inscripcion", $this->Id_acto);
-
+		$stmt->bindParam(":Fecha_inscripcion", $this->Fecha_inscripcion);
 
 		if ($stmt->execute())
 		{

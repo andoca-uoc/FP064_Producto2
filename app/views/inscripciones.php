@@ -35,17 +35,21 @@
 									<th scope="col">Fecha Acto</th>
 									<th scope="col">Nombre</th>
 									<th scope="col">Apellidos</th>
+									<th scope="col">Acciones</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php foreach ($inscripciones as $inscripcion) : ?>
-									<tr id="inscripcion-<?php echo $inscripcion['id_inscripcion']; ?>">
-										<td><?php echo $inscripcion['id_inscripcion']; ?></td>
-										<td><?php echo $inscripcion['descripcion']; ?></td>
+									<tr id="inscripcion-<?php echo $inscripcion['Id_inscripcion']; ?>">
+										<td><?php echo $inscripcion['Id_inscripcion']; ?></td>
+										<td><?php echo "" ?> Aprende PHP </td>
+										<td><?php echo $inscripcion['Fecha_inscripcion']; ?></td>
+										<td><?php echo "" ?> Pepe </td>
+										<td><?php echo "" ?> Perez </td>
 
 										<td>
 											<div class="btn-group" role="group">
-												<button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionTipoActo('../controllers/inscripciones/borrar.php?id_inscripcion=<?php echo $inscripcion['id_inscripcion']; ?>')">Borrar</button>
+												<button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionTipoActo('../controllers/inscripciones/borrar.php?Id_inscripcion=<?php echo $inscripcion['Id_inscripcion']; ?>')">Borrar</button>
 											</div>
 										</td>
 									</tr>
