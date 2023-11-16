@@ -11,6 +11,9 @@ function handleRoute($page) {
             break;
         case 'ponente':
             include 'ponenteProvisional';
+        case 'calendario': 
+            include 'calendario.php';
+            break;
         default:
             include 'acto.php';
     }

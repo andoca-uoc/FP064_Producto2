@@ -205,21 +205,58 @@ include '../controllers/tipo_actos/leer.php';
             </div>
         </div>
     </div>
-<!-- Modal de Confirmacion de Eliminación Tipo acto -->
-<div class="modal fade" id="confirmarBorradoTipoActoModal" tabindex="-1" aria-labelledby="confirmarBorradoTipoActoModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmarBorradoTipoActoModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que quieres eliminar este tipo de acto?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <a href="#" class="btn btn-danger" id="btnConfirmarEliminarTipoActo">Eliminar</a>
+      <!-- Modal de modificación Perfil -->
+      <div class="modal fade" id="modificarPerfil" tabindex="-1" aria-labelledby="crearActoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Perfil Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="../controllers/actos/crear.php" method="POST">
+                        <div class="container mt-4">
+
+                            <div class="form-floating mb-3">
+                                <input type="hidden" id="floatingInput" name="Id_usuario">
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+                                <label for="floatingInput">Nombre: </label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+                                <label for="floatingInput">Contraseña: </label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+                                <label for="floatingInput">Email: </label>
+                            </div>
+
+                            <div class="mb-3">
+                            <label for="inscribirse_acto" class="form-label">Inscribirse a acto</label>
+                            <select required class="form-control" id="inscribirse_acto" name="id_acto">
+                                <?php foreach ($tipo_actos as $tipo_acto) : ?>
+                                    <option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
+                                        <?php echo $tipo_acto['descripcion']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            </div>
+
+                            
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" name="crearActo">Modificar</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
-</div>
