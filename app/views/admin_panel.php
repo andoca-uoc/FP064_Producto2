@@ -33,7 +33,7 @@ include './modales.php';
                     <a href="admin_panel.php?page=tipo_acto">Tipos de actos</a>
                 </li>
                 <li>
-                    <a href="admin_panel.php?page=inscritos">Inscritos</a>
+                    <a href="admin_panel.php?page=inscripciones">inscripciones</a>
                 </li>
             </ul>
 
