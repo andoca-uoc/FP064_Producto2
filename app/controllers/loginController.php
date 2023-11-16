@@ -17,26 +17,27 @@ class LoginController {
         $this->usuarioModel = new Usuario($pdo);
     }
 
-   public function login($username, $password) {
-           $user = $this->usuarioModel->findByUsername($username);
-
-           if ($user && $this->usuarioModel->verifyPassword($username, $password)) {
-               $user_type = $this->usuarioModel->getUserType($username);
-
-               if ($user_type == 'Admin') {
-                   header('Location: /views/admin_panel.php');
-                   exit;
-               } else {
-                   header('Location: ../views/user_dashboard.php');
-                   exit;
-               }
-           } else {
-               $_SESSION['login_error'] = 'Usuario o contraseña incorrecta.';
-               header('Location: ../index.php');
-               exit;
-           }
-       }
-   }
+    public function login($username, $password) {
+        $user = $this->usuarioModel->findByUsername($username);
+    
+        if ($user && $this->usuarioModel->verifyPassword($username, $password)) {
+            $_SESSION['user'] = $username;
+            $_SESSION['user_type'] = $this->usuarioModel->getUserType($username);
+    
+            if ($_SESSION['user_type'] == 'Admin') {
+                header('Location: /../views/admin_panel.php');
+                exit;
+            } else {
+                header('Location: /../views/user_dashboard.php');
+                exit;
+            }
+        } else {
+            $_SESSION['login_error'] = 'Usuario o contraseña incorrecta.';
+            header('Location: /../index.php');
+            exit;
+        }
+    }
+}
 
 $controller = new LoginController();
 

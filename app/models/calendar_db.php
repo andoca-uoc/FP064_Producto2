@@ -1,15 +1,15 @@
 <?php
 
-class Usuario {
+class calendar_db {
     private $db;
 
     public function __construct($db) {
         $this->db = $db;
     }
 
-    public function findByUsername($username) {
-        $stmt = $this->db->prepare("SELECT * FROM Usuarios WHERE Username = :username");
-        $stmt->bindValue(':username', $username);
+    public function findById($idActo) {
+        $stmt = $this->db->prepare("SELECT * FROM Actos WHERE Id_acto = :idActo");
+        $stmt->bindValue(':idActo', $idActo);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -51,7 +51,7 @@ class Usuario {
                 $stmtPersona->execute();
                 $idPersona = $this->db->lastInsertId();
 
-                if (!$idPersona || $idPersona >= 0) {
+                if (!$idPersona || $idPersona <= 0) {
                     throw new Exception("Error al insertar en la tabla Personas.");
                 }
 
