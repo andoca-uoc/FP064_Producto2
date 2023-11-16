@@ -51,11 +51,7 @@ class Usuario {
                 $stmtPersona->execute();
                 $idPersona = $this->db->lastInsertId();
 
-<<<<<<< HEAD
                 if (!$idPersona || $idPersona >= 0) {
-=======
-                if (!$idPersona || $idPersona <= 0) {
->>>>>>> develop
                     throw new Exception("Error al insertar en la tabla Personas.");
                 }
 
