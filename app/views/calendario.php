@@ -1,5 +1,4 @@
 <?php 
-session_start();
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
     header('Location: /views/login.php');
     exit;
