@@ -1,6 +1,13 @@
-<?php include '../controllers/actos/leer.php' ?>
-<?php include '../controllers/actos/borrar.php' ?>
-<?php include '../controllers/actos/actualizar.php' ?>
+<?php
+session_start();
+if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
+    header('Location: /views/login.php');
+    exit;
+}
+include '../controllers/actos/leer.php'; 
+include '../controllers/actos/borrar.php'; 
+include '../controllers/actos/actualizar.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 
