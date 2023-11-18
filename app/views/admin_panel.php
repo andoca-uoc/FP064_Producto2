@@ -1,11 +1,17 @@
 <?php
 session_start();
-include '../lib/routes.php';
-include './modales.php';
-if (!isset($_SESSION['user']) || $_SESSION['user_type'] != 'Admin') {
-    header('Location: /login.php');
+if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
+    header('Location: /views/login.php');
     exit;
 }
+
+if (isset($_SESSION['user_type']) && strtolower($_SESSION['user_type']) != 'admin') {
+    header('Location: /views/user_dashboard.php');
+    exit;
+}
+
+include '../lib/routes.php';
+include './modales.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,7 +55,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user_type'] != 'Admin') {
             </ul>
 
             <ul class="list-unstyled CTAs">
-                <li><a href="/login.php" class="article">Desconectarse</a></li>
+                <li><a href="/../controllers/loginController.php?action=logout" class="article">Desconectarse</a></li>
             </ul>
         </nav>
 

@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
+    header('Location: /views/login.php');
+    exit;
+}
+
 include '../lib/routes.php';
 include './modales.php';
 ?>
@@ -38,7 +44,7 @@ include './modales.php';
             </ul>
 
             <ul class="list-unstyled CTAs">
-                <li><a href="/login.php" class="article">Desconectarse</a></li>
+                <li><a href="/../controllers/loginController.php?action=logout" class="article">Desconectarse</a></li>
             </ul>
         </nav>
 
