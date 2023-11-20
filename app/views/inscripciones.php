@@ -1,4 +1,5 @@
 <?php include '../controllers/inscripciones/leer.php' ?>
+<?php include '../controllers/inscripciones/borrar.php' ?>
 
 <!DOCTYPE html>
 <html>
@@ -49,7 +50,7 @@
 
 										<td>
 											<div class="btn-group" role="group">
-												<button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmarEliminacionTipoActo('../controllers/inscripciones/borrar.php?Id_inscripcion=<?php echo $inscripcion['Id_inscripcion']; ?>')">Borrar</button>
+												<a role="button" class="btn btn-sm btn-outline-danger" href="#" onclick="confirmarEliminacion('../controllers/inscripciones/borrar.php?id_inscripcion=<?php echo $inscripcion['Id_inscripcion']; ?>')">Borrar</a>
 											</div>
 										</td>
 									</tr>

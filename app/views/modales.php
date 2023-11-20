@@ -262,3 +262,22 @@ include '../controllers/tipo_actos/leer.php';
             </div>
         </div>
     </div>
+
+     <!-- Modal de Confirmacion de Eliminación Inscripcion -->
+     <div class="modal fade" id="confirmarEliminacionModal" tabindex="-1" aria-labelledby="confirmarEliminacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que quieres eliminar esta inscripción?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href="#" class="btn btn-danger" id="btnEliminar">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>

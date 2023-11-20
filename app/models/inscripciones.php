@@ -47,9 +47,10 @@ class Inscripcion
 		return false;
 	}*/
 
-	public function borrar() {
+
+	public function borrar($id) {
 		$query = 'DELETE FROM ' . $this->table . ' WHERE Id_inscripcion = :Id_inscripcion';
-		return db_query_execute($query, [':Id_inscripcion' => $this->Id_inscripcion]);
+		return db_query_execute($query, [':Id_inscripcion'  => $id]);
 	}
 	
 }
