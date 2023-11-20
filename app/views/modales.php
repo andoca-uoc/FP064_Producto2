@@ -1,5 +1,8 @@
 <?php 
 include '../controllers/tipo_actos/leer.php';
+include '../controllers/actos/leer.php';
+include '../controllers/personas/leer.php';
+
 ?>
 
 
@@ -263,21 +266,43 @@ include '../controllers/tipo_actos/leer.php';
         </div>
     </div>
 
-     <!-- Modal de Confirmacion de Eliminación Inscripcion -->
-     <div class="modal fade" id="confirmarEliminacionModal" tabindex="-1" aria-labelledby="confirmarEliminacionModalLabel" aria-hidden="true">
+ <!-- MODALES INSCRIPCIONES  -->
+
+       <!-- Modal Crear Inscripcion -->
+       <div class="modal fade" id="modalCrearInscripcion" tabindex="-1" aria-labelledby="modalCrearInscripcionLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmar Eliminación</h5>
+                    <h5 class="modal-title" id="modalCrearInscripcionLabel">Nueva Inscripción</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    ¿Estás seguro de que quieres eliminar esta inscripción?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <a href="#" class="btn btn-danger" id="btnEliminar">Eliminar</a>
-                </div>
+                <form action="../controllers/inscripciones/crear.php" method="POST">
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input required type="hidden" class="form-control" id="floatingInputCrear" name="Id_inscripcion">
+                        </div>
+                        <label for="titulo_acto" class="form-label">Titulo Acto</label>
+                            <select required class="form-control" id="Id_acto" name="Id_acto">
+                                <?php foreach ($actos as $acto) : ?>
+                                    <option value="<?php echo $acto['id']; ?>">
+                                        <?php echo $acto['title']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        <label for="usuario" class="form-label">Usuario</label>
+                        <select required class="form-control" id="id_persona" name="Id_persona">
+                            <?php foreach ($personas as $persona) : ?>
+                                <option value="<?php echo $persona['Id_persona']; ?>">
+                                    <?php echo $persona['Nombre_apellidos']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" name="crearInscripcion">Crear</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -1,47 +1,29 @@
 <?php
 require_once __DIR__ . "/db.php";
 
-class Inscripcion
+class Persona
 {
 	private $conn;
-	private $table = 'Inscritos';
+	private $table = 'Personas';
 
-	public $Id_inscripcion;
 	public $Id_persona;
-	public $Id_acto;
-	public $Fecha_inscripcion;
-	public $Nombre;
-	public $Apellido1;
-	public $Acto_Titulo;
-	 
+	public $Nombre_apellidos;
+
 	public function __construct() {
 		$this->conn = db_connect();
 	}
 
 	public function leer() {
-		return db_query_fetchall('SELECT
-		i.Id_inscripcion,
-		i.Id_persona,
-		p.Nombre,
-		p.Apellido1,
-		i.id_acto AS Id_acto,
-		a.Titulo AS Acto_Titulo,
-		i.Fecha_inscripcion
-	FROM
-		Inscritos AS i
-	JOIN
-		Personas AS p ON i.Id_persona = p.Id_persona
-	JOIN
-		Actos AS a ON i.id_acto = a.Id_acto');
+		return db_query_fetchall("SELECT Id_persona, CONCAT(Nombre, ' ', Apellido1, ' ', Apellido2) AS Nombre_apellidos FROM Personas");
 	}
 
 	public function crear() {
-		$query = 'INSERT INTO ' . $this->table . ' (Id_inscripcion, Id_persona, Id_acto, Fecha_inscripcion) VALUES (:Id_inscripcion, :Id_persona, :Id_acto, :Fecha_inscripcion)';
+		$query = 'INSERT INTO ' . $this->table . ' (Id_persona, Nombre, Apellido1, Apellido2) VALUES (:Id_persona, :Nombre, :Apellido1, :Apellido2)';
 		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(":Id_inscripcion", $this->Id_inscripcion);
 		$stmt->bindParam(":Id_persona", $this->Id_persona);
-		$stmt->bindParam(":Id_acto", $this->Id_acto);
-		$stmt->bindParam(":Fecha_inscripcion", $this->Fecha_inscripcion);
+		$stmt->bindParam(":Nombre", $this->Nombre);
+		$stmt->bindParam(":Apellido1", $this->Apellido1);
+		$stmt->bindParam(":Apellido2", $this->Apellido2);
 
 		if ($stmt->execute())
 		{
@@ -64,9 +46,9 @@ class Inscripcion
 	}*/
 
 
-	public function borrar($id) {
+	/* public function borrar($id) {
 		$query = 'DELETE FROM ' . $this->table . ' WHERE Id_inscripcion = :Id_inscripcion';
 		return db_query_execute($query, [':Id_inscripcion'  => $id]);
-	}
+	} */
 	
 }

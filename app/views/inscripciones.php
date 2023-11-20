@@ -22,7 +22,7 @@
 		<div class="container-fluid mt-4">
 			<div class="row">
 				<div class="col text-end">
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearTipoActo">Nueva inscripción</button>
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearInscripcion">Nueva inscripción</button>
 				</div>
 			</div>
 			<div class="row">
