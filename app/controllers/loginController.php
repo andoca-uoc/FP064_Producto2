@@ -4,12 +4,19 @@ session_start();
 require_once __DIR__ . '/../models/db.php';
 require_once __DIR__ . '/../models/Usuario.php';
 
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    session_destroy();
+    header('Location: /../views/login.php');
+    exit;
+}
 
-class LoginController {
+class LoginController
+{
     private $usuarioModel;
     public $loginError = '';
 
-    public function __construct() {
+    public function __construct()
+    {
         $pdo = db_connect();
         if (!$pdo) {
             throw new InvalidArgumentException("No se puede conectar a la base de datos");
@@ -17,13 +24,14 @@ class LoginController {
         $this->usuarioModel = new Usuario($pdo);
     }
 
-    public function login($username, $password) {
+    public function login($username, $password)
+    {
         $user = $this->usuarioModel->findByUsername($username);
-    
+
         if ($user && $this->usuarioModel->verifyPassword($username, $password)) {
             $_SESSION['user'] = $username;
             $_SESSION['user_type'] = $this->usuarioModel->getUserType($username);
-    
+
             if ($_SESSION['user_type'] == 'Admin') {
                 header('Location: /../views/admin_panel.php');
                 exit;
@@ -46,4 +54,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['contrasena'] ?? '';
     $controller->login($username, $password);
 }
-?>

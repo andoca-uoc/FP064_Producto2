@@ -2,6 +2,8 @@
 include '../controllers/tipo_actos/leer.php';
 ?>
 
+
+
  <!-- MODALES -->
 
     <!-- Modal de creacion Acto -->

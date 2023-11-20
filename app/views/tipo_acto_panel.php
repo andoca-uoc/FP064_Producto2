@@ -1,4 +1,13 @@
-<?php include '../controllers/tipo_actos/leer.php' ?>
+<?php 
+
+session_start();
+if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
+    header('Location: /views/login.php');
+    exit;
+}
+include '../controllers/tipo_actos/leer.php' 
+
+?>
 
 <!DOCTYPE html>
 <html>

@@ -21,7 +21,7 @@ function confirmarEliminacion(url) {
 }
 
 
-// Modal Modicifcat tipo acto 
+// Modal eliminar tipo acto 
 function confirmarEliminacionTipoActo(url) {
     document.getElementById('btnConfirmarEliminarTipoActo').href = url;
     var modal = new bootstrap.Modal(document.getElementById('confirmarBorradoTipoActoModal'));
