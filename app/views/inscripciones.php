@@ -43,10 +43,10 @@
 								<?php foreach ($inscripciones as $inscripcion) : ?>
 									<tr id="inscripcion-<?php echo $inscripcion['Id_inscripcion']; ?>">
 										<td><?php echo $inscripcion['Id_inscripcion']; ?></td>
-										<td><?php echo "" ?> Aprende PHP </td>
+										<td><?php echo $inscripcion['Acto_Titulo']; ?> </td>
 										<td><?php echo $inscripcion['Fecha_inscripcion']; ?></td>
-										<td><?php echo "" ?> Pepe </td>
-										<td><?php echo "" ?> Perez </td>
+										<td><?php echo $inscripcion['Nombre']; ?></td>
+										<td><?php echo $inscripcion['Apellido1']; ?></td>
 
 										<td>
 											<div class="btn-group" role="group">

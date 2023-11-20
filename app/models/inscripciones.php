@@ -10,13 +10,29 @@ class Inscripcion
 	public $Id_persona;
 	public $Id_acto;
 	public $Fecha_inscripcion;
+	public $Nombre;
+	public $Apellido1;
+	public $Acto_Titulo;
 
 	public function __construct() {
 		$this->conn = db_connect();
 	}
 
 	public function leer() {
-		return db_query_fetchall('SELECT * FROM ' . $this->table);
+		return db_query_fetchall('SELECT
+		i.Id_inscripcion,
+		i.Id_persona,
+		p.Nombre,
+		p.Apellido1,
+		i.id_acto AS Id_acto,
+		a.Titulo AS Acto_Titulo,
+		i.Fecha_inscripcion
+	FROM
+		Inscritos AS i
+	JOIN
+		Personas AS p ON i.Id_persona = p.Id_persona
+	JOIN
+		Actos AS a ON i.id_acto = a.Id_acto');
 	}
 
 	public function crear() {

@@ -20,7 +20,10 @@ if (count($resultados) > 0) {
 			'Id_inscripcion' => $resultado['Id_inscripcion'],
 			'Id_persona' => $resultado['Id_persona'],
 			'Id_acto' => $resultado['Id_acto'],
-			'Fecha_inscripcion' => date("Y-m-d h:i", strtotime($resultado['Fecha_inscripcion']))
+			'Fecha_inscripcion' => date("Y-m-d h:i", strtotime($resultado['Fecha_inscripcion'])),
+			'Nombre' => $resultado['Nombre'],
+			'Apellido1' => $resultado['Apellido1'],
+			'Acto_Titulo' => $resultado['Acto_Titulo'],
 		);
 	}
 }
