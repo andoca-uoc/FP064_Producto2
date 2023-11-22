@@ -6,7 +6,7 @@ require_once __DIR__ . '/../models/Usuario.php';
 
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     session_destroy();
-    header('Location: /../views/login.php');
+    header('Location: http://localhost:3000');
     exit;
 }
 
