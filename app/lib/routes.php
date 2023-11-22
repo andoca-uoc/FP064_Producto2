@@ -10,19 +10,20 @@ function handleRoute($page) {
             include 'tipo_acto_panel.php';
             break;
         case 'ponente':
-            include 'ponenteProvisional';
-        case 'calendario': 
-            include 'calendario.php';
+            include 'ponente.php';
             break;
-        case 'inscripciones': 
-            include 'inscripciones.php';
-            break;
+        // case 'calendario': 
+        //     include 'calendario.php';
+        //     break;
+        // case 'inscripciones': 
+        //     include 'inscripciones.php';
+        //     break;
         default:
             include 'acto.php';
     }
 }
 
-
+                          
 
 
 ?>

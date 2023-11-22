@@ -1,125 +1,78 @@
-// registerController.php
+// admin_panel.php
 <?php
 session_start();
-require_once __DIR__ . '/../models/db.php';
-require_once __DIR__ . '/../models/Usuario.php';
-
-class RegisterController {
-    private $usuarioModel;
-
-    public function __construct() {
-     $pdo = db_connect();
-        if (!$pdo) {
-            throw new InvalidArgumentException("No se puede conectar a la base de datos");
-        }
-        $this->usuarioModel = new Usuario($pdo);
-    }
-
-      public function register($username, $password, $nombre, $apellido1, $apellido2) {
-          $usernameReturned = $this->usuarioModel->addUser($username, $password, $nombre, $apellido1, $apellido2);
-
-          if ($usernameReturned === $username) {
-              header('Location: /index.php');
-              exit;
-          } else {
-              header('Location: /views/register.php?error=registro_fallido');
-              exit;
-          }
-      }
-
+if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
+    header('Location: /views/login.php');
+    exit;
 }
 
-$controller = new RegisterController();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['Username'] ?? '';
-    $password = $_POST['Password'] ?? '';
-    $nombre = $_POST['Nombre'] ?? '';
-    $apellido1 = $_POST['Apellido1'] ?? '';
-    $apellido2 = $_POST['Apellido2'] ?? '';
-
-    $controller->register($username, $password, $nombre, $apellido1, $apellido2);
+if (isset($_SESSION['user_type']) && strtolower($_SESSION['user_type']) != 'admin') {
+    header('Location: /views/user_dashboard.php');
+    exit;
 }
+
+include '../lib/routes.php';
+include './modales.php';
 ?>
+<!DOCTYPE html>
+<html>
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin + Sidebar</title>
 
-// Usuario.php
-<?php
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/../assets/css/admin.css">
+    <link rel="stylesheet" href="/../assets/css/general.css">
+</head>
 
-class Usuario {
-    private $db;
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Panel de Administración</h3>
+            </div>
 
-    public function __construct($db) {
-        $this->db = $db;
-    }
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="admin_panel.php?page=acto">Actos</a>
+                </li>
+                <li>
+                    <a href="admin_panel.php?page=ponente">Ponentes</a>
+                </li>
+                <li>
+                    <a href="admin_panel.php?page=tipo_acto">Tipos de actos</a>
+                </li>
+                <li>
+                    <a href="admin_panel.php?page=inscripciones">inscripciones</a>
+                </li>
+            </ul>
 
-    public function findByUsername($username) {
-        $stmt = $this->db->prepare("SELECT * FROM Usuarios WHERE Username = :username");
-        $stmt->bindValue(':username', $username);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+            <ul class="list-unstyled CTAs">
+                <li class="list-group-item list-group-item-info">
+                    <a href="#">Perfil</a>
+                </li>
+            </ul>
 
-    public function verifyPassword($username, $password) {
-        $user = $this->findByUsername($username);
-        if ($user && $password === $user['Password']) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+            <ul class="list-unstyled CTAs">
+                <li><a href="/../controllers/loginController.php?action=logout" class="article">Desconectarse</a></li>
+            </ul>
+        </nav>
 
-    public function getUserType($username) {
-        $user = $this->findByUsername($username);
-        if ($user) {
-            $stmt = $this->db->prepare("SELECT Descripcion FROM Tipos_usuarios WHERE Id_tipo_usuario = :tipo_usuario_id");
-            $stmt->bindValue(':tipo_usuario_id', $user['Id_tipo_usuario']);
-            $stmt->execute();
-            $tipo_usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $tipo_usuario['Descripcion'];
-        } else {
-            return null;
-        }
-    }
+        <div id="content">
+            <?php
+            $page = $_GET['page'] ?? 'default';
+            handleRoute($page);
+            ?>
+        </div>
+    </div>
 
-    public function addUser($username, $password, $nombre, $apellido1, $apellido2) {
-            $this->db->beginTransaction();
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./acciones.js"></script>
+</body>
 
-            try {
-                if ($this->findByUsername($username)) {
-                        return false;
-                    }
-                $sqlPersona = "INSERT INTO Personas (Nombre, Apellido1, Apellido2) VALUES (:nombre, :apellido1, :apellido2)";
-                $stmtPersona = $this->db->prepare($sqlPersona);
-                $stmtPersona->bindValue(':nombre', $nombre);
-                $stmtPersona->bindValue(':apellido1', $apellido1);
-                $stmtPersona->bindValue(':apellido2', $apellido2);
-                $stmtPersona->execute();
-                $idPersona = $this->db->lastInsertId();
-
-                if (!$idPersona || $idPersona >= 0) {
-                    throw new Exception("Error al insertar en la tabla Personas.");
-                }
-
-                $sqlUsuario = "INSERT INTO Usuarios (Username, Password, Id_Persona, Id_tipo_usuario) VALUES (:username, :password, :idPersona, 2)";
-                $stmtUsuario = $this->db->prepare($sqlUsuario);
-                $stmtUsuario->bindValue(':username', $username);
-                $stmtUsuario->bindValue(':password', $password);
-                $stmtUsuario->bindValue(':idPersona', $idPersona, PDO::PARAM_INT);
-                $stmtUsuario->execute();
-
-                $this->db->commit();
-
-                return $username;
-            } catch (Exception $e) {
-                $this->db->rollBack();
-                error_log('Error en addUser: ' . $e->getMessage());
-                return null;
-            }
-        }
-}
-?>
-
+</html>
 
 // login.php
 <!DOCTYPE html>
@@ -168,71 +121,441 @@ class Usuario {
 
 </html>
 
-// register.php
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registrarse</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/general.css">
-    <link rel="stylesheet" href="../assets/css/register.css">
-</head>
-<body>
-    <img src="../assets/logo.png" alt="LOGO" class="logo img-fluid mb-4 mb-md-0">
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="col-md-6">
-            <h1 class="text-center text-light">Panel de registro</h1>
+// modales.php
+<?php 
+include '../controllers/tipo_actos/leer.php';
+?>
 
-            <form class="w-100" role="form" id="myform" action="/controllers/registerController.php" method="POST">
 
-                <div class="mb-3">
-                    <label class="form-label">Nombre de Usuario</label>
-                    <input class="form-control" type="text" name="Username" placeholder="Introduce tu nombre de usuario" required>
+
+ <!-- MODALES -->
+
+    <!-- Modal de creacion Acto -->
+    <div class="modal fade" id="crearActoModal" tabindex="-1" aria-labelledby="crearActoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo Acto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                    <form action="../controllers/actos/crear.php" method="POST">
+                        <div class="container mt-4">
 
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input class="form-control" type="password" name="Password" placeholder="Introduce tu contraseña" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Nombre</label>
-                    <input class="form-control" type="text" name="Nombre" placeholder="Introduce tu nombre" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Apellido1</label>
-                    <input class="form-control" type="text" name="Apellido1" placeholder="Introduce tu primer apellido" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Apellido2</label>
-                    <input class="form-control" type="text" name="Apellido2" placeholder="Introduce tu segundo apellido" required>
-                </div>
-
-                <button class="btn btn-primary" type="submit" value="Registrarse"> Registrarse </button>
-                <a href="../index.php" class="btn btn-link">Ya tengo cuenta</a>
-            </form>
-            <?php if (isset($_GET['error'])): ?>
-                            <div class="alert alert-danger" role="alert">
-                                Error al registrarse. Por favor, intente nuevamente.
+                            <div class="form-floating mb-3">
+                                <input type="hidden" id="floatingInput" name="Id_acto">
                             </div>
-                        <?php endif; ?>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+                                <label for="floatingInput">Titulo</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control" id="floatingInput" name="Fecha" placeholder="Fecha" aria-describedby="fechaHelpBlock" required>
+                                <label for="floatingInput">Fecha</label>
+                                <div class="form-text">
+                                    Fecha con formato año-mes-día YYYY-MM-DD
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="time" class="form-control" id="floatingInput" name="Hora" placeholder="Hora" required>
+                                <label for="floatingInput">Hora</label>
+                                <div class="form-text">
+                                    Hora con formato hora:minutos:segundos hh:mm:ss
+                                </div>
+                            </div>
+
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="Descripcion_corta" placeholder="Descripcion_corta" required>
+                                <label for="floatingInput">Descripción corta</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="Descripcion_larga" placeholder="Descripcion_larga" required>
+                                <label for="floatingInput">Descripción larga</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="floatingInput" name="Num_asistentes" placeholder="Num_asistentes" required>
+                                <label for="floatingInput">Número de asistentes</label>
+                            </div>
+
+                            <div class="mb-3">
+                            <label for="update_id_tipo_acto" class="form-label">Tipo de Acto</label>
+                            <select required class="form-control" id="update_id_tipo_acto" name="Id_tipo_acto">
+                                <?php foreach ($tipo_actos as $tipo_acto) : ?>
+                                    <option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
+                                        <?php echo $tipo_acto['descripcion']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" name="crearActo">Crear</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
         </div>
     </div>
+    <!-- Modal de actualizar Acto -->
+    <div class="modal fade" id="modalActualizar" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalActualizarLabel">Modificar Acto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formActualizarActo" method="POST" action="/controllers/actos/actualizar.php">
+                        <input required type="hidden" id="update_id" name="id">
+                        <div class="mb-3">
+                            <label for="update_fecha" class="form-label">Fecha</label>
+                            <input required type="date" class="form-control" id="update_fecha" name="fecha">
+                        </div>
+                        <div class="mb-3">
+                            <label for="update_hora" class="form-label">Hora</label>
+                            <input required type="time" class="form-control" id="update_hora" name="hora">
+                        </div>
+                        <div class="mb-3">
+                            <label for="update_titulo" class="form-label">Título</label>
+                            <input required type="text" class="form-control" id="update_titulo" name="titulo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="update_descripcion_corta" class="form-label">Descripción Corta</label>
+                            <textarea class="form-control" id="update_descripcion_corta" name="descripcion_corta" rows="1"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="update_descripcion_larga" class="form-label">Descripción Larga</label>
+                            <textarea class="form-control" id="update_descripcion_larga" name="descripcion_larga" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="update_num_asistentes" class="form-label">Número de Asistentes</label>
+                            <input required type="number" class="form-control" id="update_num_asistentes" name="num_asistentes">
+                        </div>
+                        <div class="mb-3">
+                            <label for="update_id_tipo_acto" class="form-label">Tipo de Acto</label>
+                            <select required class="form-control" id="update_id_tipo_acto" name="id_tipo_acto">
+                                <?php foreach ($tipo_actos as $tipo_acto) : ?>
+                                    <option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
+                                        <?php echo $tipo_acto['descripcion']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de Confirmacion de Eliminación Actpo -->
+    <div class="modal fade" id="confirmarEliminacionModal" tabindex="-1" aria-labelledby="confirmarEliminacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarEliminacionModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que quieres eliminar este acto?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href="#" class="btn btn-danger" id="btnEliminar">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Crear Tipo de Acto -->
+    <div class="modal fade" id="modalCrearTipoActo" tabindex="-1" aria-labelledby="modalCrearTipoActoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCrearTipoActoLabel">Nuevo Tipo de Acto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="../controllers/tipo_actos/crear.php" method="POST">
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input required type="hidden" class="form-control" id="floatingInputCrear" name="Id_tipo_acto">
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input required type="text" class="form-control" id="floatingInputCrear" name="Descripcion" placeholder="Descripcion">
+                            <label for="floatingInputCrear">Descripcion</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" name="crearActo">Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Actualizar Tipo de Acto -->
+    <div class="modal fade" id="modalActualizarTipoActo" tabindex="-1" aria-labelledby="modalActualizarTipoActoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalActualizarTipoActoLabel">Actualizar Tipo de Acto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="../controllers/tipo_actos/actualizar.php" method="POST">
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input type="hidden" class="form-control" id="floatingInputActualizar" name="id_tipo_acto">                        
+                        </div>
+                        <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="Descripcion" name="descripcion" placeholder="Descripcion">
+                            <label for="floatingInputActualizar">Descripcion</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" name="actualizarActo">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+      <!-- Modal de modificación Perfil -->
+    <div class="modal fade" id="modificarPerfil" tabindex="-1" aria-labelledby="crearActoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Perfil Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="../controllers/actos/crear.php" method="POST">
+                        <div class="container mt-4">
+
+                            <div class="form-floating mb-3">
+                                <input type="hidden" id="floatingInput" name="Id_usuario">
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+                                <label for="floatingInput">Nombre: </label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+                                <label for="floatingInput">Contraseña: </label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+                                <label for="floatingInput">Email: </label>
+                            </div>
+
+                            <div class="mb-3">
+                            <label for="inscribirse_acto" class="form-label">Inscribirse a acto</label>
+                            <select required class="form-control" id="inscribirse_acto" name="id_acto">
+                                <?php foreach ($tipo_actos as $tipo_acto) : ?>
+                                    <option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
+                                        <?php echo $tipo_acto['descripcion']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            </div>
+
+                            
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" name="crearActo">Modificar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+// user_dashboard.php
+<?php
+session_start();
+if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
+    header('Location: /views/login.php');
+    exit;
+}
+
+include '../lib/routes.php';
+include './modales.php';
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin + Sidebar</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="/assets/css/general.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Panel de Usuario</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="user_dashboard.php?page=calendario">Calendario</a>
+                </li>
+                
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li class="list-group-item list-group-item-info">
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modificarPerfil">
+                    Perfil
+                    </button>
+                 </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li><a href="/../controllers/loginController.php?action=logout" class="article">Desconectarse</a></li>
+            </ul>
+        </nav>
+
+        <div id="content">
+            <?php
+            $page = $_GET['page'] ?? 'calendario';
+            handleRoute($page);
+            ?>
+        </div>
+    </div>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    </script>
 </body>
+
 </html>
 
-
-// index.php
+// loginController.php
 <?php
-    require_once 'models/db.php';
-    require 'controllers/loginController.php';
+session_start();
 
-    $loginController = new LoginController();
-    require 'views/login.php';
+require_once __DIR__ . '/../models/db.php';
+require_once __DIR__ . '/../models/Usuario.php';
 
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    session_destroy();
+    header('Location: http://localhost:3000');
+    exit;
+}
+
+class LoginController
+{
+    private $usuarioModel;
+    public $loginError = '';
+
+    public function __construct()
+    {
+        $pdo = db_connect();
+        if (!$pdo) {
+            throw new InvalidArgumentException("No se puede conectar a la base de datos");
+        }
+        $this->usuarioModel = new Usuario($pdo);
+    }
+
+    public function login($username, $password)
+    {
+        $user = $this->usuarioModel->findByUsername($username);
+
+        if ($user && $this->usuarioModel->verifyPassword($username, $password)) {
+            $_SESSION['user'] = $username;
+            $_SESSION['user_type'] = $this->usuarioModel->getUserType($username);
+
+            if ($_SESSION['user_type'] == 'Admin') {
+                header('Location: /../views/admin_panel.php');
+                exit;
+            } else {
+                header('Location: /../views/user_dashboard.php');
+                exit;
+            }
+        } else {
+            $_SESSION['login_error'] = 'Usuario o contraseña incorrecta.';
+            header('Location: /../index.php');
+            exit;
+        }
+    }
+}
+
+$controller = new LoginController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['usuario'] ?? '';
+    $password = $_POST['contrasena'] ?? '';
+    $controller->login($username, $password);
+}
+
+
+// registerController.php
+<?php
+session_start();
+require_once __DIR__ . '/../models/db.php';
+require_once __DIR__ . '/../models/Usuario.php';
+
+class RegisterController {
+    private $usuarioModel;
+
+    public function __construct() {
+     $pdo = db_connect();
+        if (!$pdo) {
+            throw new InvalidArgumentException("No se puede conectar a la base de datos");
+        }
+        $this->usuarioModel = new Usuario($pdo);
+    }
+
+      public function register($username, $password, $nombre, $apellido1, $apellido2) {
+          $usernameReturned = $this->usuarioModel->addUser($username, $password, $nombre, $apellido1, $apellido2);
+
+          if ($usernameReturned === $username) {
+              header('Location: /index.php');
+              exit;
+          } else {
+              header('Location: /views/register.php?error=registro_fallido');
+              exit;
+          }
+      }
+
+}
+
+$controller = new RegisterController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['Username'] ?? '';
+    $password = $_POST['Password'] ?? '';
+    $nombre = $_POST['Nombre'] ?? '';
+    $apellido1 = $_POST['Apellido1'] ?? '';
+    $apellido2 = $_POST['Apellido2'] ?? '';
+
+    $controller->register($username, $password, $nombre, $apellido1, $apellido2);
+}
 ?>
 
 
