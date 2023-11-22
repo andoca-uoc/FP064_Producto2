@@ -26,7 +26,7 @@
 	</nav>
 	<div class="row">
 		<div class="col text-end">
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="modalCrearPonente">Nuevo Ponente</button>
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearPonente">Nuevo Ponente</button>
 		</div>
 	</div>
 	<div class="row">
