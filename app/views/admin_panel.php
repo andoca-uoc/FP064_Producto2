@@ -9,9 +9,10 @@ if (isset($_SESSION['user_type']) && strtolower($_SESSION['user_type']) != 'admi
     header('Location: /views/user_dashboard.php');
     exit;
 }
-
 include '../lib/routes.php';
 include './modales.php';
+include '../controllers/leerUsuarioController.php';
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +33,6 @@ include './modales.php';
             <div class="sidebar-header">
                 <h3>Panel de Administración</h3>
             </div>
-
             <ul class="list-unstyled components">
                 <li>
                     <a href="admin_panel.php?page=acto">Actos</a>
@@ -50,8 +50,10 @@ include './modales.php';
 
             <ul class="list-unstyled CTAs">
                 <li class="list-group-item list-group-item-info">
-                    <a href="#">Perfil</a>
-                </li>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modificarPerfil"
+                     onclick="abrirModalPerfil($_SESSION['user'])">Perfil</button>
+                 
+                 </li>
             </ul>
 
             <ul class="list-unstyled CTAs">

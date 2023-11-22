@@ -2,6 +2,7 @@
 include '../controllers/tipo_actos/leer.php';
 include '../controllers/actos/leer.php';
 include '../controllers/personas/leer.php';
+include '../controllers/usuarios/actualizar.php';
 
 ?>
 
@@ -211,7 +212,7 @@ include '../controllers/personas/leer.php';
         </div>
     </div>
       <!-- Modal de modificación Perfil -->
-      <div class="modal fade" id="modificarPerfil" tabindex="-1" aria-labelledby="crearActoModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modificarPerfil" tabindex="-1" aria-labelledby="modificarPerfilModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -219,29 +220,32 @@ include '../controllers/personas/leer.php';
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="../controllers/actos/crear.php" method="POST">
+                <form action="/../controllers/leerUsuarioController.php" method="post">
                         <div class="container mt-4">
 
                             <div class="form-floating mb-3">
-                                <input type="hidden" id="floatingInput" name="Id_usuario">
+                                <input type="hidden" id="update_id" name="Id_usuario">
                             </div>
 
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
-                                <label for="floatingInput">Nombre: </label>
+                                <input type="text" class="form-control" id="update_usuario" name="usuario" placeholder="Usuario" required>
+                                <label for="floatingInput">Usuario: </label>
+                                <p>holaaa<?php echo htmlspecialchars($_SESSION['user_type']); ?></p>
+
                             </div>
 
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+                           <!--  <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="update_contrasena" name="password" placeholder="password" required>
                                 <label for="floatingInput">Contraseña: </label>
-                            </div>
-
+                            </div> -->
+<!-- 
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+                                <input type="text" class="form-control" id="update_email" name="email" placeholder="Email" required>
                                 <label for="floatingInput">Email: </label>
-                            </div>
+                            </div> -->
 
-                            <div class="mb-3">
+
+                           <!--  <div class="mb-3">
                             <label for="inscribirse_acto" class="form-label">Inscribirse a acto</label>
                             <select required class="form-control" id="inscribirse_acto" name="id_acto">
                                 <?php foreach ($tipo_actos as $tipo_acto) : ?>
@@ -251,7 +255,7 @@ include '../controllers/personas/leer.php';
                                 <?php endforeach; ?>
                             </select>
                             </div>
-
+ -->
                             
                             
                         </div>

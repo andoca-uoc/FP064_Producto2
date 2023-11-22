@@ -36,3 +36,13 @@ function abrirModalActualizarTipoActo(tipoActo) {
     var modal = new bootstrap.Modal(document.getElementById('modalActualizarTipoActo'));
     modal.show();
 }
+
+// Modal Modificar Perfil 
+function abrirModalPerfil(usuario) {
+    document.querySelector('#modificarPerfil #update_id').value = usuario.id || '';
+    document.querySelector('#modificarPerfil #update_usuario').value = usuario.username || '';
+    document.querySelector('#modificarPerfil #update_contrasena').value = usuario.password || '';
+    document.querySelector('#modificarPerfil #update_email').value = usuario.email || '';
+    var modal = new bootstrap.Modal(document.getElementById('modificarPerfil'));
+    modal.show();
+}

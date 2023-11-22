@@ -7,6 +7,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
 
 include '../lib/routes.php';
 include './modales.php';
+include '/../controllers/leerUsuarioController.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,9 +38,8 @@ include './modales.php';
 
             <ul class="list-unstyled CTAs">
                 <li class="list-group-item list-group-item-info">
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modificarPerfil">
-                    Perfil
-                    </button>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modificarPerfil"
+                     onclick="abrirModalPerfil(<?php echo htmlspecialchars(json_encode($username)); ?>)" class="btn btn-sm btn-outline-secondary">Perfil</button>
                  </li>
             </ul>
 

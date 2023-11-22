@@ -1,8 +1,10 @@
 <?php
 
 class Usuario {
-    private $db;
-
+    private $table = 'Usuarios';
+    private $db; 
+   
+    
     public function __construct($db) {
         $this->db = $db;
     }
@@ -71,5 +73,20 @@ class Usuario {
                 return null;
             }
         }
+    
+    // MIMI: NO ESTOY SEGURA DE QUE ESTO FUNCIONE 100%. REVISAR BIEN ANTES DE USAR.
+    public function actualizar() {
+        $query = 'UPDATE ' . $this->table . ' SET Username=:Username WHERE Id_usuario=:Id_usuario';
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bindParam(":Username", $this->Username);
+        $stmt->bindParam(":Id_usuario", $this->Id_usuario);
+
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
 }
 ?>
