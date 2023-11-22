@@ -12,12 +12,12 @@ function handleRoute($page) {
         case 'ponente':
             include 'ponente.php';
             break;
-        case 'calendario': 
-            include 'calendario.php';
-            break;
-        case 'inscripciones': 
-            include 'inscripciones.php';
-            break;
+        // case 'calendario': 
+        //     include 'calendario.php';
+        //     break;
+        // case 'inscripciones': 
+        //     include 'inscripciones.php';
+        //     break;
         default:
             include 'acto.php';
     }
