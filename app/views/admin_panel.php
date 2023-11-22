@@ -54,41 +54,9 @@ include './modales.php';
                 </li>
             </ul>
 
-            public function addUser($username, $password, $nombre, $apellido1, $apellido2) {
-    $this->db->beginTransaction();
-
-    try {
-        if ($this->findByUsername($username)) {
-            return false;
-        }
-        $sqlPersona = "INSERT INTO Personas (Nombre, Apellido1, Apellido2) VALUES (:nombre, :apellido1, :apellido2)";
-        $stmtPersona = $this->db->prepare($sqlPersona);
-        $stmtPersona->bindValue(':nombre', $nombre);
-        $stmtPersona->bindValue(':apellido1', $apellido1);
-        $stmtPersona->bindValue(':apellido2', $apellido2);
-        $stmtPersona->execute();
-        $idPersona = $this->db->lastInsertId();
-
-        if ($idPersona <= 0) {
-            throw new Exception("Error al insertar en la tabla Personas.");
-        }
-
-        $sqlUsuario = "INSERT INTO Usuarios (Username, Password, Id_Persona, Id_tipo_usuario) VALUES (:username, :password, :idPersona, 2)";
-        $stmtUsuario = $this->db->prepare($sqlUsuario);
-        $stmtUsuario->bindValue(':username', $username);
-        $stmtUsuario->bindValue(':password', $password);
-        $stmtUsuario->bindValue(':idPersona', $idPersona, PDO::PARAM_INT);
-        $stmtUsuario->execute();
-
-        $this->db->commit();
-
-        return $username;
-    } catch (Exception $e) {
-        $this->db->rollBack();
-        error_log('Error en addUser: ' . $e->getMessage());
-        return null;
-    }
-}
+            <ul class="list-unstyled CTAs">
+                <li><a href="/../controllers/loginController.php?action=logout" class="article">Desconectarse</a></li>
+            </ul>
         </nav>
 
         <div id="content">
@@ -98,7 +66,6 @@ include './modales.php';
             ?>
         </div>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./acciones.js"></script>
