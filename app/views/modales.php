@@ -1,5 +1,8 @@
 <?php 
 include '../controllers/tipo_actos/leer.php';
+include '../controllers/actos/leer.php';
+include '../controllers/personas/leer.php';
+
 ?>
 
 
@@ -262,3 +265,166 @@ include '../controllers/tipo_actos/leer.php';
             </div>
         </div>
     </div>
+
+ <!-- MODALES INSCRIPCIONES  -->
+
+       <!-- Modal Crear Inscripcion -->
+       <div class="modal fade" id="modalCrearInscripcion" tabindex="-1" aria-labelledby="modalCrearInscripcionLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCrearInscripcionLabel">Nueva Inscripción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="../controllers/inscripciones/crear.php" method="POST">
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input required type="hidden" class="form-control" id="floatingInputCrear" name="Id_inscripcion">
+                        </div>
+                        <label for="titulo_acto" class="form-label">Titulo Acto</label>
+                            <select required class="form-control" id="Id_acto" name="Id_acto">
+                                <?php foreach ($actos as $acto) : ?>
+                                    <option value="<?php echo $acto['id']; ?>">
+                                        <?php echo $acto['title']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        <label for="usuario" class="form-label">Usuario</label>
+                        <select required class="form-control" id="id_persona" name="Id_persona">
+                            <?php foreach ($personas as $persona) : ?>
+                                <option value="<?php echo $persona['Id_persona']; ?>">
+                                    <?php echo $persona['Nombre_apellidos']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" name="crearInscripcion">Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- Modal de crear Ponente -->
+<div class="modal fade" id="crearPonenteModal" tabindex="-1" aria-labelledby="crearPonenteModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Nuevo Ponente</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="../controllers/ponentes/crear.php" method="POST">
+					<div class="container mt-4">
+
+						<div class="container d-flex justify-content-center align-items-center vh-100">
+							<div class="col-md-6">
+								<h1 class="text-center text-light">Panel de registro de ponentes</h1>
+
+								<form action="/controllers/ponentes/crear.php" method="POST">
+
+									<div class="form-floating mb-3">
+										<label class="form-label">Nombre de Usuario Ponente</label>
+									</div>
+
+									<div>
+										<input class="form-control" type="text" name="Username" placeholder="Introduce tu nombre de usuario" required>
+									</div>
+
+									<div class="form-floating mb-3">
+										<label class="form-label">Password</label>
+										<input class="form-control" type="password" name="Password" placeholder="Introduce tu contraseña" required>
+									</div>
+
+									<div class="form-floating mb-3">
+										<label class="form-label">Nombre</label>
+										<input class="form-control" type="text" name="Nombre" placeholder="Introduce tu nombre" required>
+									</div>
+
+									<div class="form-floating mb-3">
+										<label class="form-label">Apellido1</label>
+										<input class="form-control" type="text" name="Apellido1" placeholder="Introduce tu primer apellido" required>
+									</div>
+
+									<div class="form-floating mb-3">
+										<label class="form-label">Apellido2</label>
+										<input class="form-control" type="text" name="Apellido2" placeholder="Introduce tu segundo apellido" required>
+									</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+								<button type="submit" class="btn btn-primary" name="crearPonente">Crear</button>
+							</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Modal de actualizar Ponente -->
+
+<div class="modal fade" id="modalActualizarPonente" tabindex="-1" aria-labelledby="modalActualizarPonente" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalActualizarPonenteLabel">Actualizar Ponente</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form id="formActualizarPonente" method="POST" action="/controllers/ponentes/actualizar.php">
+				<input required type="hidden" id="update_Id_usuario" name="Id_usuario">
+				<div class="modal-body">
+					<div class="mb-3">
+						<label for="update_Username" class="form-label">Username</label>
+						<input required type="text" class="form-control" id="update_Username" name="Username">
+					</div>
+					<div class="mb-3">
+						<label for="update_Password" class="form-label">Password</label>
+						<input required type="text" class="form-control" id="update_Password" name="Password">
+					</div>
+					<div class="mb-3">
+						<label for="update_Nombre" class="form-label">Nombre</label>
+						<input required type="text" class="form-control" id="update_Nombre" name="Nombre">
+					</div>
+					<div class="mb-3">
+						<label for="update_Apellido1" class="form-label">Apellido 1</label>
+						<input required type="text" class="form-control" id="update_Apellido1" name="Apellido1">
+					</div>
+					<div class="mb-3">
+						<label for="update_Apellido2" class="form-label">Apellido 2</label>
+						<input required type="text" class="form-control" id="update_Apellido2" name="Apellido2">
+					</div>
+					<input required type="hidden" id="update_id_persona" name="id_persona">
+					<input required type="hidden" id="update_id_tipo_usuario" name="id_tipo_usuario">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-primary" name="actualizarPonente">Actualizar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Modal de Confirmacion de Eliminación Ponente -->
+<div class="modal fade" id="confirmarEliminacionPonenteModal" tabindex="-1" aria-labelledby="confirmarEliminacionModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="confirmarEliminacionPonenteModalLabel">Confirmar Eliminación</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				¿Estás seguro de que quieres eliminar este ponente?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+				<a href="#" class="btn btn-danger" id="btnEliminar">Eliminar</a>
+			</div>
+		</div>
+	</div>
+</div>
