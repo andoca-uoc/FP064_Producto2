@@ -1,0 +1,137 @@
+// actualizar.php
+<?php
+require_once __DIR__ . '/../../models/Ponente.php';
+
+$db = db_connect();
+$ponentes = [];
+
+if (!$db) {
+	die("Error al conectar con la base de datos");
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$ponente = new Ponente($db);
+
+	// Asignar valores del POST a las propiedades del objeto ponente
+	$ponente->Id_usuario = $_POST['Id_usuario'];
+	$ponente->Username = $_POST['Username'];
+	$ponente->Password = $_POST['Password'];
+	$ponente->Nombre = $_POST['Nombre'];
+	$ponente->Apellido1 = $_POST['Apellido1'];
+	$ponente->Apellido2 = $_POST['Apellido2'];
+	$ponente->Id_persona = $_POST['Id_persona'];
+	$ponente->Id_tipo_usuario = $_POST['id_tipo_usuario'];
+
+	if ($ponente->actualizar()) {
+		header('Location: /views/ponente.php');
+	} else {
+		echo "Error al actualizar el ponente";
+	}
+}
+?>
+
+
+
+
+// borrar.php
+<?php
+require_once __DIR__ . '/../../models/Ponente.php';
+
+$db = db_connect();
+
+if (!$db) {
+	die("Error al conectar con la base de datos");
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['iduser'])) {
+	$Id_usuario = $_GET['iduser'];
+	$ponente = new Ponente($db);
+	if ($ponente->borrar($Id_usuario)) {
+		header('Location: /views/admin_panel.php');
+		exit;
+	} else {
+		echo "Error al borrar el acto";
+	}
+}
+
+?>
+
+
+
+// crear.php
+<?php
+require_once __DIR__ . '/../../models/db.php';
+
+require_once __DIR__ . '/../../models/Ponente.php';
+
+class RegisterPonenteController {
+	private $ponenteModel;
+
+	public function __construct() {
+		$pdo = db_connect();
+		if (!$pdo) {
+			throw new InvalidArgumentException("No se puede conectar a la base de datos");
+		}
+		$this->ponenteModel = new Ponente($pdo);
+	}
+
+	public function register($username, $password, $nombre, $apellido1, $apellido2) {
+		$usernameReturned = $this->ponenteModel->crear($username, $password, $nombre, $apellido1, $apellido2);
+
+		if ($usernameReturned === $username) {
+			header('Location: /views/_ponente_panel.php');
+			exit;
+		} else {
+			header('Location: /views/register.php?error=registro_fallido');
+			exit;
+		}
+	}
+
+}
+
+$controller = new RegisterPonenteController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$username = $_POST['Username'] ?? '';
+	$password = $_POST['Password'] ?? '';
+	$nombre = $_POST['Nombre'] ?? '';
+	$apellido1 = $_POST['Apellido1'] ?? '';
+	$apellido2 = $_POST['Apellido2'] ?? '';
+
+	$controller->register($username, $password, $nombre, $apellido1, $apellido2);
+}
+?>
+
+
+
+// leer.php
+<?php
+require_once __DIR__ . '/../../models/db.php';
+require_once __DIR__ . '/../../models/Ponente.php';
+
+$db = db_connect();
+$ponentes = [];
+
+if (!$db) {
+	die("Error al conectar con la base de datos");
+}
+$ponente = new Ponente($db);
+
+$resultados = $ponente->leer();
+
+if(count($resultados)> 0){
+	foreach($resultados as $resultado){
+		$ponentes[] = array(
+			'iduser' => $resultado['Id_usuario'],
+			'username' => $resultado['Username'],
+			'pass' => $resultado['Password'],
+			'name' => $resultado['Nombre'],
+			'surname1' => $resultado['Apellido1'],
+			'surname2' => $resultado['Apellido2'],
+			'idperson' =>  $resultado['Id_persona'],
+			'idtype' =>  $resultado['Id_tipo_usuario']
+		);
+	}
+}
+
+

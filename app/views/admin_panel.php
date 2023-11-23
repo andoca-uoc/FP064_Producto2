@@ -44,7 +44,7 @@ include '../controllers/leerUsuarioController.php';
                     <a href="admin_panel.php?page=tipo_acto">Tipos de actos</a>
                 </li>
                 <li>
-                    <a href="admin_panel.php?page=inscripciones">inscripciones</a>
+                    <a href="admin_panel.php?page=inscripciones">Inscripciones</a>
                 </li>
             </ul>
 
@@ -61,14 +61,13 @@ include '../controllers/leerUsuarioController.php';
             </ul>
         </nav>
 
-        <div id="content">
+         <div id="content">
             <?php
             $page = $_GET['page'] ?? 'default';
             handleRoute($page);
             ?>
-        </div>
+        </div> 
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./acciones.js"></script>

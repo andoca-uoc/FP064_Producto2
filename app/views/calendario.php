@@ -4,6 +4,11 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
     exit;
 } ?>
 
+<?php
+include ('../controllers/actos/leer.php'); 
+include ('../controllers/calendar.php'); 
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -29,14 +34,16 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
             <input type="submit" value="Enviar">
         </form>
 
-        <?php include ('../controllers/calendar.php'); 
-            setlocale(LC_TIME,"es_ES");
+        <?php 
             $dateInput = @$_POST["dateInput"];
             $calendar = new Calendar(date($dateInput));
-            $calendar->add_event('Evento', '2023-11-03', 1, 'green');
-            $calendar->add_event('Seminario', '2023-11-04', 1, 'red');
-            $calendar->add_event('Talleres', '2023-11-16', 7);
         ?>
+
+        <?php foreach ($actos as $acto) : ?>
+            <tr>
+                <td><?php $calendar->add_event($acto['title'] . "<br>" . $acto['description1'] . "<br>" . $acto['description2'], $acto['date'], 1, 'green');?></td>
+            </tr>
+        <?php endforeach ?>
 
         <div class="content home">
 			<?=$calendar?>

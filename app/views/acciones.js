@@ -37,6 +37,29 @@ function abrirModalActualizarTipoActo(tipoActo) {
     modal.show();
 }
 
+//Modal Ponente Actualizar:
+function abrirModalActualizar(ponente) {
+	document.querySelector('#formActualizarPonente #update_Id_usuario').value = ponente.iduser || '';
+	document.querySelector('#formActualizarPonente #update_Username').value = ponente.username || '';
+	document.querySelector('#formActualizarPonente #update_Password').value = ponente.pass || '';
+	document.querySelector('#formActualizarPonente #update_Nombre').value = ponente.name || '';
+	document.querySelector('#formActualizarPonente #update_Apellido1').value = ponente.surname1 || '';
+	document.querySelector('#formActualizarPonente #update_Apellido2').value = ponente.surname2 || '';
+	document.querySelector('#formActualizarPonente #update_Id_persona').value = ponente.idperson || '';
+	document.querySelector('#formActualizarPonente #update_id_tipo_usuario').value = ponente.idtype || '';
+	var modal = new bootstrap.Modal(document.getElementById('modalActualizarPonente'));
+	modal.show();
+}
+
+//Modal Ponente Eliminar:
+function confirmarEliminacion(url) {
+	document.getElementById('btnEliminar').onclick = function() {
+		window.location.href = url;
+	};
+	var modal = new bootstrap.Modal(document.getElementById('confirmarEliminacionPonenteModal'));
+	modal.show();
+}
+
 // Modal Modificar Perfil 
 function abrirModalPerfil(usuario) {
     document.querySelector('#modificarPerfil #update_id').value = usuario.id || '';
