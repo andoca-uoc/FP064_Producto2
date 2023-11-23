@@ -52,13 +52,13 @@ function abrirModalActualizar(ponente) {
 }
 
 //Modal Ponente Eliminar:
-function confirmarEliminacion(url) {
+function confirmarEliminacionPonentes(url) {
 	document.getElementById('btnEliminar').onclick = function() {
 		window.location.href = url;
 	};
 	var modal = new bootstrap.Modal(document.getElementById('confirmarEliminacionPonenteModal'));
 	modal.show();
-}
+} 
 
 // Modal Modificar Perfil 
 function abrirModalPerfil(usuario) {

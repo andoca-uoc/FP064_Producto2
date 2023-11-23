@@ -63,7 +63,7 @@
 								</div>
 
 								<div class="btn-group" role="group">
-									<a role="button" class="btn btn-sm btn-outline-danger" href="ponente.php" onclick="confirmarEliminacionPonenteModal('../controllers/ponente/borrar.php?id=<?php echo $ponente['iduser']; ?>')">Borrar</a>
+									<a role="button" class="btn btn-sm btn-outline-danger" href="ponente.php" onclick="confirmarEliminacionPonente('../controllers/ponente/borrar.php?id=<?php echo $ponente['iduser']; ?>')">Borrar</a>
 								</div>
 							</td>
 						</tr>
