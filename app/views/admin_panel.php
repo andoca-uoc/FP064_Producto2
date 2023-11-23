@@ -11,8 +11,7 @@ if (isset($_SESSION['user_type']) && strtolower($_SESSION['user_type']) != 'admi
 }
 include '../lib/routes.php';
 include './modales.php';
-include '../controllers/leerUsuarioController.php';
-
+ 
 ?>
 <!DOCTYPE html>
 <html>

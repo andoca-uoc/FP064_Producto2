@@ -38,6 +38,15 @@ class Usuario {
         }
     }
 
+    public function getUserPersonaId($username) {
+        $user = $this->findByUsername($username);
+        if ($user) {
+            return $user['Id_Persona'];
+        } else {
+            return null;
+        }
+    }
+
     public function addUser($username, $password, $nombre, $apellido1, $apellido2) {
         $this->db->beginTransaction();
     
@@ -72,7 +81,7 @@ class Usuario {
             error_log('Error en addUser: ' . $e->getMessage());
             return null;
         }
-    
+/*     
     // MIMI: NO ESTOY SEGURA DE QUE ESTO FUNCIONE 100%. REVISAR BIEN ANTES DE USAR.
     public function actualizar() {
         $query = 'UPDATE ' . $this->table . ' SET Username=:Username WHERE Id_usuario=:Id_usuario';
@@ -86,6 +95,7 @@ class Usuario {
             return true;
         }
         return false;
-    }
+    } */
+}
 }
 ?>

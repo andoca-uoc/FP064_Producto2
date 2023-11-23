@@ -6,12 +6,14 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
 }
 
 include '../lib/routes.php';
-include './modales.php';
-include '/../controllers/leerUsuarioController.php';
+include './modales.php'; 
 ?>
+
 <!DOCTYPE html>
 <html>
-
+<script>
+        console.log(<?php echo json_encode($_SESSION['user_persona_id']); ?>);
+</script>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,6 +36,9 @@ include '/../controllers/leerUsuarioController.php';
                     <a href="user_dashboard.php?page=calendario">Calendario</a>
                 </li>
                 
+            <li>
+                    <a href="user_dashboard.php?page=inscripciones-usuario">Inscripciones</a>
+                </li>
             </ul>
 
             <ul class="list-unstyled CTAs">

@@ -15,6 +15,9 @@ function handleRoute($page) {
         case 'inscripciones': 
             include 'inscripciones.php';
             break;
+        case 'inscripciones-usuario': 
+            include 'inscripciones-usuario.php';
+            break;
         case 'calendario': 
             include 'calendario.php';
             break;

@@ -31,6 +31,7 @@ class LoginController
         if ($user && $this->usuarioModel->verifyPassword($username, $password)) {
             $_SESSION['user'] = $username;
             $_SESSION['user_type'] = $this->usuarioModel->getUserType($username);
+            $_SESSION['user_persona_id'] = $this->usuarioModel->getUserPersonaId($username);
 
             if ($_SESSION['user_type'] == 'Admin') {
                 header('Location: /../views/admin_panel.php');

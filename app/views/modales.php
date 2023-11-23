@@ -289,10 +289,15 @@ include '../controllers/usuarios/actualizar.php';
 					</select>
 					<label for="usuario" class="form-label">Usuario</label>
 					<select required class="form-control" id="id_persona" name="Id_persona">
+
+
 						<?php foreach ($personas as $persona) : ?>
+							<?php if($persona['Id_persona'] == $_SESSION['user_persona_id']) : ?> 
+
 							<option value="<?php echo $persona['Id_persona']; ?>">
 								<?php echo $persona['Nombre_apellidos']; ?>
 							</option>
+							<?php endif; ?>
 						<?php endforeach; ?>
 					</select>
 				</div>
