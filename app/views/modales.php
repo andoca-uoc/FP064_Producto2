@@ -287,19 +287,40 @@ include '../controllers/usuarios/actualizar.php';
 							</option>
 						<?php endforeach; ?>
 					</select>
+
+					<!-- Se muestran todos los usuarios is es admin -->
+					<?php if(strtolower($_SESSION['user_type']) === 'admin') : ?> 
 					<label for="usuario" class="form-label">Usuario</label>
-					<select required class="form-control" id="id_persona" name="Id_persona">
+						<select required class="form-control" id="id_persona" name="Id_persona">
+							<?php foreach ($personas as $persona) : ?>
 
 
-						<?php foreach ($personas as $persona) : ?>
-							<?php if($persona['Id_persona'] == $_SESSION['user_persona_id']) : ?> 
+								<option value="<?php echo $persona['Id_persona']; ?>">
+									<?php echo $persona['Nombre_apellidos']; ?>
+								</option>
+								
+							<?php endforeach; ?>
+						</select>
 
-							<option value="<?php echo $persona['Id_persona']; ?>">
-								<?php echo $persona['Nombre_apellidos']; ?>
-							</option>
-							<?php endif; ?>
-						<?php endforeach; ?>
-					</select>
+						<?php endif; ?>
+
+					<!-- Se muestra solo el usuario de la sesión si no es admin -->
+					<?php if(strtolower($_SESSION['user_type']) != 'admin') : ?> 
+					<label for="usuario" class="form-label">Usuario</label>
+						<select required class="form-control" id="id_persona" name="Id_persona">
+							<?php foreach ($personas as $persona) : ?>
+
+								<?php if($persona['Id_persona'] == $_SESSION['user_persona_id']) : ?> 
+
+									<option value="<?php echo $persona['Id_persona']; ?>">
+										<?php echo $persona['Nombre_apellidos']; ?>
+									</option>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						</select>
+
+						<?php endif; ?>
+						
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -475,44 +496,5 @@ include '../controllers/usuarios/actualizar.php';
         </div>
     </div>
 
- <!-- MODALES INSCRIPCIONES  -->
-
-       <!-- Modal Crear Inscripcion -->
-       <div class="modal fade" id="modalCrearInscripcion" tabindex="-1" aria-labelledby="modalCrearInscripcionLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalCrearInscripcionLabel">Nueva Inscripción</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="../controllers/inscripciones/crear.php" method="POST">
-                    <div class="modal-body">
-                        <div class="form-floating mb-3">
-                            <input required type="hidden" class="form-control" id="floatingInputCrear" name="Id_inscripcion">
-                        </div>
-                        <label for="titulo_acto" class="form-label">Titulo Acto</label>
-                            <select required class="form-control" id="Id_acto" name="Id_acto">
-                                <?php foreach ($actos as $acto) : ?>
-                                    <option value="<?php echo $acto['id']; ?>">
-                                        <?php echo $acto['title']; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        <label for="usuario" class="form-label">Usuario</label>
-                        <select required class="form-control" id="id_persona" name="Id_persona">
-                            <?php foreach ($personas as $persona) : ?>
-                                <option value="<?php echo $persona['Id_persona']; ?>">
-                                    <?php echo $persona['Nombre_apellidos']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" name="crearInscripcion">Crear</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+ 
 </div>
