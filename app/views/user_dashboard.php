@@ -12,7 +12,7 @@ include './modales.php';
 <!DOCTYPE html>
 <html>
 <script>
-        console.log(<?php echo json_encode($_SESSION['user_persona_id']); ?>);
+        console.log(<?php echo json_encode($tipo_acto); ?>);
 </script>
 <head>
     <meta charset="utf-8">
@@ -44,10 +44,14 @@ include './modales.php';
             <ul class="list-unstyled CTAs">
                 <li class="list-group-item list-group-item-info">
                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modificarPerfil"
-                     onclick="abrirModalPerfil(<?php echo htmlspecialchars(json_encode($username)); ?>)" class="btn btn-sm btn-outline-secondary">Perfil</button>
+                     onclick="abrirModalPerfil()" class="btn btn-sm btn-outline-secondary">Perfil</button>
                  </li>
             </ul>
 
+
+
+
+                                            
             <ul class="list-unstyled CTAs">
                 <li><a href="/../controllers/loginController.php?action=logout" class="article">Desconectarse</a></li>
             </ul>

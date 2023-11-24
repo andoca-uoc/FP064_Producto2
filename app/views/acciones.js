@@ -52,7 +52,7 @@ function abrirModalActualizar(ponente) {
 }
 
 //Modal Ponente Eliminar:
-function confirmarEliminacionPonentes(url) {
+function confirmarEliminacionPonente(url) {
 	document.getElementById('btnEliminar').onclick = function() {
 		window.location.href = url;
 	};
@@ -62,10 +62,14 @@ function confirmarEliminacionPonentes(url) {
 
 // Modal Modificar Perfil 
 function abrirModalPerfil(usuario) {
-    document.querySelector('#modificarPerfil #update_id').value = usuario.id || '';
-    document.querySelector('#modificarPerfil #update_usuario').value = usuario.username || '';
-    document.querySelector('#modificarPerfil #update_contrasena').value = usuario.password || '';
-    document.querySelector('#modificarPerfil #update_email').value = usuario.email || '';
+    console.log('usuario', usuario)
+    document.getElementById('update_Id_tipo_usuario').value = usuario.Id_tipo_usuario;
+    document.getElementById('update_Id_Persona').value = usuario.Id_Persona;
+
+    document.getElementById('update_Id_usuario').value = usuario.Id_usuario;
+    document.getElementById('update_Usuario').value = usuario.Username;
+    document.getElementById('update_Password').value = usuario.Password;
+
     var modal = new bootstrap.Modal(document.getElementById('modificarPerfil'));
     modal.show();
 }

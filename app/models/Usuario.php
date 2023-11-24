@@ -3,8 +3,12 @@
 class Usuario {
     private $table = 'Usuarios';
     private $db; 
-   
-    
+    public $Id_usuario;
+    public $Username;
+    public $Password;
+    public $Id_tipo_usuario;
+    public $Id_Persona;
+
     public function __construct($db) {
         $this->db = $db;
     }
@@ -80,22 +84,22 @@ class Usuario {
             $this->db->rollBack();
             error_log('Error en addUser: ' . $e->getMessage());
             return null;
-        }
-/*     
-    // MIMI: NO ESTOY SEGURA DE QUE ESTO FUNCIONE 100%. REVISAR BIEN ANTES DE USAR.
-    public function actualizar() {
-        $query = 'UPDATE ' . $this->table . ' SET Username=:Username WHERE Id_usuario=:Id_usuario';
-        $stmt = $this->db->prepare($query);
+        }   
+    }
+        public function actualizar() {
+            $query = 'UPDATE ' . $this->table . ' SET Username=:Username, Password=:Password, Id_tipo_usuario=:Id_tipo_usuario, Id_Persona=:Id_Persona WHERE Id_usuario=:Id_usuario';
 
-        $stmt->bindParam(":Username", $this->Username);
-        $stmt->bindParam(":Id_usuario", $this->Id_usuario);
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(":Id_usuario", $this->Id_usuario);
+            $stmt->bindParam(":Username", $this->Username);
+            $stmt->bindParam(":Password", $this->Password);
+            $stmt->bindParam(":Id_tipo_usuario", $this->Id_tipo_usuario); 
+            $stmt->bindParam(":Id_Persona", $this->Id_Persona); 
 
-
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
-    } */
-}
+            if ($stmt->execute()) {
+                return true;
+            }
+            return false;
+        } 
 }
 ?>

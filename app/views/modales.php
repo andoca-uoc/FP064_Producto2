@@ -212,51 +212,50 @@ include '../controllers/usuarios/actualizar.php';
 	</div>
 </div>
 <!-- Modal de modificación Perfil -->
-<div class="modal fade" id="modificarPerfil" tabindex="-1" aria-labelledby="crearActoModalLabel" aria-hidden="true">
+<div class="modal fade" id="modificarPerfil" tabindex="-1" aria-labelledby="modificarPerfilLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Perfil Usuario</h5>
+				<h5 class="modal-title">Perfil USUARIO</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form action="../controllers/actos/crear.php" method="POST">
+				<form action="../controllers/usuarios/actualizar.php" method="POST">
 					<div class="container mt-4">
 
 						<div class="form-floating mb-3">
-							<input type="hidden" id="floatingInput" name="Id_usuario">
+							<input type="hidden" id="update_Id_usuario" name="Id_usuario">
 						</div>
 
 						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+							<input type="hidden" id="update_Id_tipo_usuario" name="Id_tipo_usuario">
+						</div>
+
+						<div class="form-floating mb-3">
+							<input type="hidden" id="update_Id_Persona" name="Id_Persona">
+						</div>
+
+						<div class="form-floating mb-3">
+							<input type="text" class="form-control" id="update_Usuario" name="Usuario">
 							<label for="floatingInput">Nombre: </label>
 						</div>
 
 						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+							<input type="text" class="form-control" id="update_Password" name="Password" >
 							<label for="floatingInput">Contraseña: </label>
 						</div>
 
-						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="floatingInput" name="Titulo" placeholder="Titulo" required>
+						<!-- <div class="form-floating mb-3">
+							<input type="text" class="form-control" id="update_Email" name="Email">
 							<label for="floatingInput">Email: </label>
 						</div>
-							
-						<div class="mb-3">
-							<label for="inscribirse_acto" class="form-label">Inscribirse a acto</label>
-							<select required class="form-control" id="inscribirse_acto" name="id_acto">
-								<?php foreach ($tipo_actos as $tipo_acto) : ?>
-									<option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
-										<?php echo $tipo_acto['descripcion']; ?>
-									</option>
-								<?php endforeach; ?>
-							</select>
-						</div>
+							 -->
+						 
 						
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-						<button type="submit" class="btn btn-primary" name="crearActo">Modificar</button>
+						<button type="submit" class="btn btn-primary" name="modificarPerfil">Modificar</button>
 					</div>
 				</form>
 			</div>
@@ -373,7 +372,7 @@ include '../controllers/usuarios/actualizar.php';
             </div>
         </div>
     </div>
-
+</div>
 <!-- Modal de actualizar Ponente -->
 
 <div class="modal fade" id="modalActualizarPonente" tabindex="-1" aria-labelledby="modalActualizarPonente" aria-hidden="true">
@@ -436,65 +435,7 @@ include '../controllers/usuarios/actualizar.php';
 		</div>
 	</div>
 </div>
-
- <!-- Modal de modificación Perfil -->
- <div class="modal fade" id="modificarPerfil" tabindex="-1" aria-labelledby="modificarPerfilModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Perfil Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                <form action="/../controllers/leerUsuarioController.php" method="post">
-                        <div class="container mt-4">
-
-                            <div class="form-floating mb-3">
-                                <input type="hidden" id="update_id" name="Id_usuario">
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="update_usuario" name="usuario" placeholder="Usuario" required>
-                                <label for="floatingInput">Usuario: </label>
-                                <p>holaaa<?php echo htmlspecialchars($_SESSION['user_type']); ?></p>
-
-                            </div>
-
-                           <!--  <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="update_contrasena" name="password" placeholder="password" required>
-                                <label for="floatingInput">Contraseña: </label>
-                            </div> -->
-<!-- 
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="update_email" name="email" placeholder="Email" required>
-                                <label for="floatingInput">Email: </label>
-                            </div> -->
-
-
-                           <!--  <div class="mb-3">
-                            <label for="inscribirse_acto" class="form-label">Inscribirse a acto</label>
-                            <select required class="form-control" id="inscribirse_acto" name="id_acto">
-                                <?php foreach ($tipo_actos as $tipo_acto) : ?>
-                                    <option value="<?php echo $tipo_acto['id_tipo_acto']; ?>">
-                                        <?php echo $tipo_acto['descripcion']; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            </div>
- -->
-                            
-                            
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" name="crearActo">Modificar</button>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
+ 
 
  
-</div>
+ 
