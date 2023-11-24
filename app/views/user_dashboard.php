@@ -7,12 +7,14 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
 
 include '../lib/routes.php';
 include './modales.php'; 
+include '../controllers/usuarios/leerUsuarioSesion.php' 
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <script>
-        console.log(<?php echo json_encode($tipo_acto); ?>);
+        console.log(<?php echo json_encode($usuarios); ?>);
 </script>
 <head>
     <meta charset="utf-8">
@@ -41,16 +43,18 @@ include './modales.php';
                 </li>
             </ul>
 
+         
+            <?php foreach ($usuarios as $usuario) : ?>
+
             <ul class="list-unstyled CTAs">
                 <li class="list-group-item list-group-item-info">
                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modificarPerfil"
-                     onclick="abrirModalPerfil()" class="btn btn-sm btn-outline-secondary">Perfil</button>
-                 </li>
+                    onclick="abrirModalPerfil(<?php echo htmlspecialchars(json_encode($usuario)); ?>)">Perfil</button>
+                
+                </li>
             </ul>
 
-
-
-
+            <?php endforeach ?>
                                             
             <ul class="list-unstyled CTAs">
                 <li><a href="/../controllers/loginController.php?action=logout" class="article">Desconectarse</a></li>
@@ -67,8 +71,8 @@ include './modales.php';
 
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    </script>
+    <script src="./acciones.js"></script>
+
 </body>
 
 </html>
