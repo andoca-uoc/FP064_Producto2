@@ -68,5 +68,12 @@ class Inscripcion
 		$query = 'DELETE FROM ' . $this->table . ' WHERE Id_inscripcion = :Id_inscripcion';
 		return db_query_execute($query, [':Id_inscripcion'  => $id]);
 	}
+
+	public function findBySession($session) {
+        $stmt = $this->conn->prepare("SELECT Id_acto FROM Inscritos WHERE Id_persona = :session");
+        $stmt->bindValue(':session', $session);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 	
 }

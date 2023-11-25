@@ -27,3 +27,20 @@ if (count($resultados) > 0) {
 		);
 	}
 }
+
+$inscripcionesUser = [];
+
+$inscripcionUser = new Inscripcion();
+
+$usuarioActual = $_SESSION['user_persona_id'];
+
+$resuladosUser = $inscripcionUser -> findBySession($usuarioActual);
+
+
+if (count($resuladosUser) > 0) {
+	foreach ($resuladosUser as $resultadoUser) {
+		$inscripcionesUser[] = array(
+			'Id_acto' => $resultadoUser['Id_acto']
+		);
+	}
+}
