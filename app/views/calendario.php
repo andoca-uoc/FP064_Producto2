@@ -6,6 +6,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
 
 <?php
 include ('../controllers/actos/leer.php'); 
+include ('../controllers/inscripciones/leer.php'); 
 include ('../controllers/calendar.php'); 
 ?>
 
@@ -41,7 +42,17 @@ include ('../controllers/calendar.php');
 
         <?php foreach ($actos as $acto) : ?>
             <tr>
-                <td><?php $calendar->add_event($acto['title'] . "<br>" . $acto['description1'] . "<br>" . $acto['description2'], $acto['date'], 1, 'green');?></td>
+
+            <td>
+                <?php  
+                     $color = in_array($acto['id'], array_column($inscripcionesUser, 'Id_acto')) ? 'green' : 'orange';
+                     
+                     
+                $calendar->add_event($acto['title'] . "<br>" . $acto['description1'] . "<br>" . $acto['description2'] . "<br> Id acto: " . $acto['id'], $acto['date'], 1, $color);
+                
+                ?>
+            </td> 
+
             </tr>
         <?php endforeach ?>
 
