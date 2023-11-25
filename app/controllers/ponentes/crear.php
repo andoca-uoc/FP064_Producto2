@@ -18,7 +18,7 @@ class RegisterPonenteController {
 		$usernameReturned = $this->ponenteModel->crear($username, $password, $nombre, $apellido1, $apellido2);
 
 		if ($usernameReturned === $username) {
-			header('Location: /views/_ponente_panel.php');
+			header('Location: /views/admin_panel.php?page=ponente');
 			exit;
 		} else {
 			header('Location: /views/register.php?error=registro_fallido');

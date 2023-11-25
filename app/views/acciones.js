@@ -53,9 +53,9 @@ function abrirModalActualizarPonente(ponente) {
 
 //Modal Ponente Eliminar:
 function confirmarEliminacionPonente(url) {
-	document.getElementById('btnEliminar').onclick = function() {
-		window.location.href = url;
-	};
+    console.log('LAURA TONTA CULO', url)
+	document.getElementById('btnEliminarPonente').href = url;
+    console.log('LAURA TONTA CULO', document.getElementById('btnEliminarPonente').href)
 	var modal = new bootstrap.Modal(document.getElementById('confirmarEliminacionPonenteModal'));
 	modal.show();
 } 

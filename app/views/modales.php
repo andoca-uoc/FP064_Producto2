@@ -430,7 +430,7 @@ include '../controllers/usuarios/actualizar.php';
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-				<a href="#" class="btn btn-danger" id="btnEliminar">Eliminar</a>
+				<a href="#" class="btn btn-danger" id="btnEliminarPonente">Eliminar</a>
 			</div>
 		</div>
 	</div>

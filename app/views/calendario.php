@@ -34,9 +34,9 @@ $calendar = new Calendar($dateInput ? date($dateInput) : null);
     </nav>
 
     <h2 style="color: white;">Selecciona una fecha:</h2>
-    <form method="post" action="">
-        <input type="date" id="dateInput" name="dateInput" value="<?php echo $_POST['dateInput'] ?? date('Y-m-d'); ?>">
-        <input type="submit" value="Cambiar Fecha">
+    <form class="form-group d-flex gap-3" method="post" action="">
+        <input class="form-control w-25" type="date" id="dateInput" name="dateInput" value="<?php echo $_POST['dateInput'] ?? date('Y-m-d'); ?>">
+        <input class="btn btn-primary" type="submit" value="Cambiar Fecha">
     </form>
 
     <?php

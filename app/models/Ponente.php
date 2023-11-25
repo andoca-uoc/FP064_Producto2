@@ -67,8 +67,7 @@ class Ponente {
 
 	public function actualizar() {
 		$query = 'UPDATE Usuarios, Personas SET Id_persona=:Id_persona, Nombre=:Nombre, Apellido1=:Apellido1, Apellido2=:Apellido2, Username=:Username, Password=:Password, Id_tipo_usuario=:id_tipo_usuario WHERE Id_usuario=:Id_usuario';
-		$stmt = $this->conn->prepare($query);
-
+		$stmt = $this->db->prepare($query);
 
 		$stmt->bindParam(":Id_usuario", $this->Id_usuario);
 		$stmt->bindParam(":Id_persona", $this->Id_persona);
@@ -86,7 +85,7 @@ class Ponente {
 	}
 
 	public function borrar($Id_usuario) {
-		$query = 'DELETE FROM Usuarios WHERE Id_usuario = :Id_usuario';
-		return db_query_execute($query, [':ponente_lista' => $Id_usuario]);
+		$query = 'DELETE FROM Usuarios WHERE Id_usuario = :id';
+		return db_query_execute($query, [':id' => $Id_usuario]);
 	}
 }
