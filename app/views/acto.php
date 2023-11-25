@@ -5,12 +5,15 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
 }
 
 if (isset($_SESSION['user_type']) && strtolower($_SESSION['user_type']) != 'admin') {
-    header('Location: /views/user_dashboard.php');
+    // Estamos en la misma ruta de acto.php porque estmos haciendo cambiar la vista mediante parametros get en la url y nos esta retornan el error que no se pueden modificar los headers porque ya se han enviado al navegador
+    if (isset($_GET['page'])) {
+        header('Location: /views/user_dashboard.php?page=' . $_GET['page']);
+    }
     exit;
 }
 
-include '../controllers/actos/leer.php'; 
-include '../controllers/actos/borrar.php'; 
+include '../controllers/actos/leer.php';
+include '../controllers/actos/borrar.php';
 include '../controllers/actos/actualizar.php';
 ?>
 <!DOCTYPE html>
@@ -26,14 +29,14 @@ include '../controllers/actos/actualizar.php';
 
 <body>
     <div class="container-fluid mt-4">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
                 <h1>Gestión de Actos</h1>
-                </div>
-            </nav>
+            </div>
+        </nav>
         <div class="row">
             <div class="col text-end">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearActoModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearActoModal">
                     Nuevo acto
                 </button>
             </div>
@@ -68,11 +71,11 @@ include '../controllers/actos/actualizar.php';
                                     <td><?php echo $acto['id_type']; ?></td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <button   button onclick="abrirModalActualizar(<?php echo htmlspecialchars(json_encode($acto)); ?>)" class="btn btn-sm btn-outline-secondary">Modificar</button>
+                                            <button button onclick="abrirModalActualizar(<?php echo htmlspecialchars(json_encode($acto)); ?>)" class="btn btn-sm btn-outline-secondary">Modificar</button>
                                         </div>
 
                                         <div class="btn-group" role="group">
-                                        <a role="button" class="btn btn-sm btn-outline-danger" href="#" onclick="confirmarEliminacion('../controllers/actos/borrar.php?id=<?php echo $acto['id']; ?>')">Borrar</a>
+                                            <a role="button" class="btn btn-sm btn-outline-danger" href="#" onclick="confirmarEliminacion('../controllers/actos/borrar.php?id=<?php echo $acto['id']; ?>')">Borrar</a>
                                         </div>
                                     </td>
                                 </tr>

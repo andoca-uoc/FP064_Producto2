@@ -38,7 +38,7 @@ function abrirModalActualizarTipoActo(tipoActo) {
 }
 
 //Modal Ponente Actualizar:
-function abrirModalActualizar(ponente) {
+function abrirModalActualizarPonente(ponente) {
 	document.querySelector('#formActualizarPonente #update_Id_usuario').value = ponente.iduser || '';
 	document.querySelector('#formActualizarPonente #update_Username').value = ponente.username || '';
 	document.querySelector('#formActualizarPonente #update_Password').value = ponente.pass || '';

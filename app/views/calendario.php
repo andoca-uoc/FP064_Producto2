@@ -1,13 +1,13 @@
-<?php 
+<?php
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
     header('Location: /views/login.php');
     exit;
 } ?>
 
 <?php
-include ('../controllers/actos/leer.php'); 
-include ('../controllers/inscripciones/leer.php'); 
-include ('../controllers/calendar.php'); 
+include('../controllers/actos/leer.php');
+include('../controllers/inscripciones/leer.php');
+include('../controllers/calendar.php');
 
 $dateInput = $_POST['dateInput'] ?? null;
 $calendar = new Calendar($dateInput ? date($dateInput) : null);
@@ -27,37 +27,38 @@ $calendar = new Calendar($dateInput ? date($dateInput) : null);
 </head>
 
 <body>
-<nav class="navtop">
-	    	<div>
-	    		<h1 style="color: white;">Calendario de Eventos</h1>
-	    	</div>
-	    </nav>
+    <nav class="navtop">
+        <div>
+            <h1 style="color: white;">Calendario de Eventos</h1>
+        </div>
+    </nav>
 
-        <h2 style="color: white;">Selecciona una fecha:</h2>
-        <form method="post" action="">
-            <input type="date" id="dateInput" name="dateInput" value="<?php echo $_POST['dateInput'] ?? date('Y-m-d'); ?>">
-            <input type="submit" value="Cambiar Fecha">
-        </form>
+    <h2 style="color: white;">Selecciona una fecha:</h2>
+    <form method="post" action="">
+        <input type="date" id="dateInput" name="dateInput" value="<?php echo $_POST['dateInput'] ?? date('Y-m-d'); ?>">
+        <input type="submit" value="Cambiar Fecha">
+    </form>
 
-        <?php 
-            $dateInput = @$_POST["dateInput"];
-            $calendar = new Calendar(date($dateInput));
-        ?>
+    <?php
+    $dateInput = @$_POST["dateInput"];
+    $calendar = new Calendar(date($dateInput));
+    ?>
 
-        <?php foreach ($actos as $acto) : ?>
-            <tr>
-                <td>
-                    <?php  
-                        $color = in_array($acto['id'], array_column($inscripcionesUser, 'Id_acto')) ? 'darkgreen' : 'red';
-                        $calendar->add_event($acto['title'] . "<br>" . $acto['description1'] . "<br>" . $acto['description2'] . "<br> Id acto: " . $acto['id'], $acto['date'], 1, $color);
-                    ?>
-                </td>
-            </tr>
-        <?php endforeach ?>
+    <?php foreach ($actos as $acto) : ?>
+        <tr>
+            <td>
+                <?php
+                $color = in_array($acto['id'], array_column($inscripcionesUser, 'Id_acto')) ? 'darkgreen' : 'red';
+                $calendar->add_event($acto['title'] . "<br>" . $acto['description1'] . "<br>" . $acto['description2'], $acto['date'], 1, $color);
+                // "<br> Id acto: " . $acto['id']
+                ?>
+            </td>
+        </tr>
+    <?php endforeach ?>
 
-        <div class="content home">
-			<?=$calendar?>
-		</div>
+    <div class="content home">
+        <?= $calendar ?>
+    </div>
 </body>
 
 </html>

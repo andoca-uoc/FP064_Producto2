@@ -241,7 +241,7 @@ include '../controllers/usuarios/actualizar.php';
 						</div>
 
 						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="update_Password" name="Password" >
+							<input type="text" class="form-control" id="update_Password" name="Password">
 							<label for="floatingInput">Contraseña: </label>
 						</div>
 
@@ -250,8 +250,8 @@ include '../controllers/usuarios/actualizar.php';
 							<label for="floatingInput">Email: </label>
 						</div>
 							 -->
-						 
-						
+
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -288,8 +288,8 @@ include '../controllers/usuarios/actualizar.php';
 					</select>
 
 					<!-- Se muestran todos los usuarios is es admin -->
-					<?php if(strtolower($_SESSION['user_type']) === 'admin') : ?> 
-					<label for="usuario" class="form-label">Usuario</label>
+					<?php if (strtolower($_SESSION['user_type']) === 'admin') : ?>
+						<label for="usuario" class="form-label">Usuario</label>
 						<select required class="form-control" id="id_persona" name="Id_persona">
 							<?php foreach ($personas as $persona) : ?>
 
@@ -297,19 +297,19 @@ include '../controllers/usuarios/actualizar.php';
 								<option value="<?php echo $persona['Id_persona']; ?>">
 									<?php echo $persona['Nombre_apellidos']; ?>
 								</option>
-								
+
 							<?php endforeach; ?>
 						</select>
 
-						<?php endif; ?>
+					<?php endif; ?>
 
 					<!-- Se muestra solo el usuario de la sesión si no es admin -->
-					<?php if(strtolower($_SESSION['user_type']) != 'admin') : ?> 
-					<label for="usuario" class="form-label">Usuario</label>
+					<?php if (strtolower($_SESSION['user_type']) != 'admin') : ?>
+						<label for="usuario" class="form-label">Usuario</label>
 						<select required class="form-control" id="id_persona" name="Id_persona">
 							<?php foreach ($personas as $persona) : ?>
 
-								<?php if($persona['Id_persona'] == $_SESSION['user_persona_id']) : ?> 
+								<?php if ($persona['Id_persona'] == $_SESSION['user_persona_id']) : ?>
 
 									<option value="<?php echo $persona['Id_persona']; ?>">
 										<?php echo $persona['Nombre_apellidos']; ?>
@@ -318,8 +318,8 @@ include '../controllers/usuarios/actualizar.php';
 							<?php endforeach; ?>
 						</select>
 
-						<?php endif; ?>
-						
+					<?php endif; ?>
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -332,46 +332,46 @@ include '../controllers/usuarios/actualizar.php';
 
 <!-- Modal de crear Ponente -->
 <div class="modal fade" id="modalCrearPonente" tabindex="-1" aria-labelledby="modalCrearPonenteLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalCrearPonenteLabel">Nuevo Ponente</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="../controllers/ponentes/crear.php" method="POST">
-                    <div class="mb-3">
-                        <label for="Username" class="form-label">Nombre de Usuario Ponente</label>
-                        <input class="form-control" id="Username" type="text" name="Username" placeholder="Introduce tu nombre de usuario" required>
-                    </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalCrearPonenteLabel">Nuevo Ponente</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="../controllers/ponentes/crear.php" method="POST">
+					<div class="mb-3">
+						<label for="Username" class="form-label">Nombre de Usuario Ponente</label>
+						<input class="form-control" id="Username" type="text" name="Username" placeholder="Introduce tu nombre de usuario" required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="Password" class="form-label">Password</label>
-                        <input class="form-control" id="Password" type="password" name="Password" placeholder="Introduce tu contraseña" required>
-                    </div>
+					<div class="mb-3">
+						<label for="Password" class="form-label">Password</label>
+						<input class="form-control" id="Password" type="password" name="Password" placeholder="Introduce tu contraseña" required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="Nombre" class="form-label">Nombre</label>
-                        <input class="form-control" id="Nombre" type="text" name="Nombre" placeholder="Introduce tu nombre" required>
-                    </div>
+					<div class="mb-3">
+						<label for="Nombre" class="form-label">Nombre</label>
+						<input class="form-control" id="Nombre" type="text" name="Nombre" placeholder="Introduce tu nombre" required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="Apellido1" class="form-label">Apellido1</label>
-                        <input class="form-control" id="Apellido1" type="text" name="Apellido1" placeholder="Introduce tu primer apellido" required>
-                    </div>
+					<div class="mb-3">
+						<label for="Apellido1" class="form-label">Apellido1</label>
+						<input class="form-control" id="Apellido1" type="text" name="Apellido1" placeholder="Introduce tu primer apellido" required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="Apellido2" class="form-label">Apellido2</label>
-                        <input class="form-control" id="Apellido2" type="text" name="Apellido2" placeholder="Introduce tu segundo apellido" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" name="crearPonente">Crear</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+					<div class="mb-3">
+						<label for="Apellido2" class="form-label">Apellido2</label>
+						<input class="form-control" id="Apellido2" type="text" name="Apellido2" placeholder="Introduce tu segundo apellido" required>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+						<button type="submit" class="btn btn-primary" name="crearPonente">Crear</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- Modal de actualizar Ponente -->
 
@@ -435,7 +435,23 @@ include '../controllers/usuarios/actualizar.php';
 		</div>
 	</div>
 </div>
- 
 
- 
- 
+
+<!-- Modal de Confirmacion de Eliminación Tipo Acto -->
+<div class="modal fade" id="confirmarBorradoTipoActoModal" tabindex="-1" aria-labelledby="confirmarEliminacionModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="confirmarEliminacionTipoActoModalLabel">Confirmar Eliminación</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				¿Estás seguro de que quieres eliminar este tipo de acto?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+				<a href="#" class="btn btn-danger" id="btnConfirmarEliminarTipoActo">Eliminar</a>
+			</div>
+		</div>
+	</div>
+</div>
