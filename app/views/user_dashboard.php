@@ -6,6 +6,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
 }
 
 include '../lib/routes.php';
+
 include './modales.php'; 
 include '../controllers/usuarios/leerUsuarioSesion.php' 
 
@@ -63,7 +64,7 @@ include '../controllers/usuarios/leerUsuarioSesion.php'
 
         <div id="content">
             <?php
-            $page = $_GET['page'] ?? 'calendario';
+            $page = $_GET['page'] ?? 'default'; 
             handleRoute($page);
             ?>
         </div>

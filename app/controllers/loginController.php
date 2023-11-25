@@ -37,7 +37,7 @@ class LoginController
                 header('Location: /../views/admin_panel.php');
                 exit;
             } else {
-                header('Location: /../views/user_dashboard.php');
+                header('Location: /../views/user_dashboard.php?page=calendario');
                 exit;
             }
         } else {

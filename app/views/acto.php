@@ -3,10 +3,12 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {
     header('Location: /views/login.php');
     exit;
 }
+
 if (isset($_SESSION['user_type']) && strtolower($_SESSION['user_type']) != 'admin') {
     header('Location: /views/user_dashboard.php');
     exit;
 }
+
 include '../controllers/actos/leer.php'; 
 include '../controllers/actos/borrar.php'; 
 include '../controllers/actos/actualizar.php';
