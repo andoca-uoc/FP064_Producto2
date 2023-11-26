@@ -1,33 +1,38 @@
 <?php
 
-class Usuario {
+class Usuario
+{
     private $table = 'Usuarios';
-    private $db; 
+    private $db;
     public $Id_usuario;
     public $Username;
     public $Password;
     public $Id_tipo_usuario;
     public $Id_Persona;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
     }
 
-    public function findByUsername($username) {
+    public function findByUsername($username)
+    {
         $stmt = $this->db->prepare("SELECT * FROM Usuarios WHERE Username = :username");
         $stmt->bindValue(':username', $username);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function findById($id) {
+    public function findById($id)
+    {
         $stmt = $this->db->prepare("SELECT Username FROM Usuarios WHERE Id_usuario = :id");
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function verifyPassword($username, $password) {
+    public function verifyPassword($username, $password)
+    {
         $user = $this->findByUsername($username);
         if ($user && $password === $user['Password']) {
             return true;
@@ -36,7 +41,8 @@ class Usuario {
         }
     }
 
-    public function getUserType($username) {
+    public function getUserType($username)
+    {
         $user = $this->findByUsername($username);
         if ($user) {
             $stmt = $this->db->prepare("SELECT Descripcion FROM Tipos_usuarios WHERE Id_tipo_usuario = :tipo_usuario_id");
@@ -49,7 +55,8 @@ class Usuario {
         }
     }
 
-    public function getUserPersonaId($username) {
+    public function getUserPersonaId($username)
+    {
         $user = $this->findByUsername($username);
         if ($user) {
             return $user['Id_Persona'];
@@ -58,9 +65,10 @@ class Usuario {
         }
     }
 
-    public function addUser($username, $password, $nombre, $apellido1, $apellido2) {
+    public function addUser($username, $password, $nombre, $apellido1, $apellido2)
+    {
         $this->db->beginTransaction();
-    
+
         try {
             if ($this->findByUsername($username)) {
                 return false;
@@ -72,41 +80,42 @@ class Usuario {
             $stmtPersona->bindValue(':apellido2', $apellido2);
             $stmtPersona->execute();
             $idPersona = $this->db->lastInsertId();
-    
+
             if ($idPersona <= 0) {
                 throw new Exception("Error al insertar en la tabla Personas.");
             }
-    
+
             $sqlUsuario = "INSERT INTO Usuarios (Username, Password, Id_Persona, Id_tipo_usuario) VALUES (:username, :password, :idPersona, 2)";
             $stmtUsuario = $this->db->prepare($sqlUsuario);
             $stmtUsuario->bindValue(':username', $username);
             $stmtUsuario->bindValue(':password', $password);
             $stmtUsuario->bindValue(':idPersona', $idPersona, PDO::PARAM_INT);
             $stmtUsuario->execute();
-    
+
             $this->db->commit();
-    
+
             return $username;
         } catch (Exception $e) {
             $this->db->rollBack();
             error_log('Error en addUser: ' . $e->getMessage());
             return null;
-        }   
+        }
     }
-        public function actualizar() {
-            $query = 'UPDATE ' . $this->table . ' SET Username=:Username, Password=:Password, Id_tipo_usuario=:Id_tipo_usuario, Id_Persona=:Id_Persona WHERE Id_usuario=:Id_usuario';
+    public function actualizar()
+    {
+        $query = 'UPDATE ' . $this->table . ' SET Username=:Username, Password=:Password, Id_tipo_usuario=:Id_tipo_usuario, Id_Persona=:Id_Persona WHERE Id_usuario=:Id_usuario';
 
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(":Id_usuario", $this->Id_usuario);
-            $stmt->bindParam(":Username", $this->Username);
-            $stmt->bindParam(":Password", $this->Password);
-            $stmt->bindParam(":Id_tipo_usuario", $this->Id_tipo_usuario); 
-            $stmt->bindParam(":Id_Persona", $this->Id_Persona); 
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(":Id_usuario", $this->Id_usuario);
+        $stmt->bindParam(":Username", $this->Username);
+        $stmt->bindParam(":Password", $this->Password);
+        $stmt->bindParam(":Id_tipo_usuario", $this->Id_tipo_usuario);
+        $stmt->bindParam(":Id_Persona", $this->Id_Persona);
 
-            if ($stmt->execute()) {
-                return true;
-            }
-            return false;
-        } 
+        if ($stmt->execute()) {
+            $_SESSION['user'] = $this->Username;
+            return true;
+        }
+        return false;
+    }
 }
-?>
