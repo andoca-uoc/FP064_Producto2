@@ -6,10 +6,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id_inscripcion'])) {
     $inscripcion = new Inscripcion();
     if ($inscripcion->borrar($id)) {
         if (!isset($_SESSION['user']) || !isset($_SESSION['user_type']) && $_SESSION['user_type'] != 'admin') {
-            header('Location: /views/admin_panel.php?page=inscripciones');
+            header('Location: /views/user_dashboard.php?page=inscripciones-usuario');
             exit;
         }
-        header('Location: /views/admin_panel.php?page=inscripciones');
+        header('Location: /views/user_dashboard.php?page=inscripciones-usuario');
         exit;
     } else {
         echo "Error al borrar la inscripción";

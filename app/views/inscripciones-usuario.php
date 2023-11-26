@@ -22,7 +22,7 @@
 		<div class="container-fluid mt-4">
 			<div class="row">
 				<div class="col text-end">
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearInscripcion">Nueva inscripción</button>
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearInscripcion-usuario">Nueva inscripción</button>
 				</div>
 			</div>
 			<div class="row">
@@ -54,7 +54,7 @@
 
 										<td>
 											<div class="btn-group" role="group">
-												<a role="button" class="btn btn-sm btn-outline-danger" href="#" onclick="confirmarEliminacion('../controllers/inscripciones/borrar.php?id_inscripcion=<?php echo $inscripcion['Id_inscripcion']; ?>')">Borrar</a>
+												<a role="button" class="btn btn-sm btn-outline-danger" href="#" onclick="confirmarEliminacion('../controllers/inscripciones/borrar-usuario.php?id_inscripcion=<?php echo $inscripcion['Id_inscripcion']; ?>')">Borrar</a>
 											</div>
 										</td>
 									</tr>

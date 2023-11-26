@@ -20,6 +20,13 @@ class Usuario {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function findById($id) {
+        $stmt = $this->db->prepare("SELECT Username FROM Usuarios WHERE Id_usuario = :id");
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function verifyPassword($username, $password) {
         $user = $this->findByUsername($username);
         if ($user && $password === $user['Password']) {
